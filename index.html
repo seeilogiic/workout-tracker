@@ -841,6 +841,7 @@
                 <div class="workout-header">
                     <h2 id="currentWorkoutType">Workout</h2>
                     <p id="workoutDate"></p>
+                    <p id="exerciseCount" style="margin-top: 10px; font-size: 14px; opacity: 0.9;">No exercises added yet</p>
                 </div>
 
                 <button class="add-exercise-btn" onclick="addExercise()">➕ Add Exercise</button>
@@ -911,10 +912,7 @@
             const selectedButton = document.querySelector(`[data-workout="${workoutType}"]`);
             selectedButton.classList.add('selected');
 
-            // Save to local storage
-            localStorage.setItem(STORAGE_KEYS.SELECTED_WORKOUT, workoutType);
-            
-            // Initialize current workout
+            // Initialize current workout session
             currentWorkout = {
                 type: workoutType,
                 date: new Date().toISOString(),
@@ -931,10 +929,11 @@
             document.getElementById('workoutTracking').classList.add('active');
             document.getElementById('historySection').classList.remove('active');
             
-            document.getElementById('currentWorkoutType').textContent = workoutType.charAt(0).toUpperCase() + workoutType.slice(1);
+            document.getElementById('currentWorkoutType').textContent = workoutType.charAt(0).toUpperCase() + workoutType.slice(1) + ' Workout';
             document.getElementById('workoutDate').textContent = new Date().toLocaleDateString() + ' at ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
             document.getElementById('exercisesContainer').innerHTML = '';
+            updateExerciseCount();
         }
 
         function showHistory() {
@@ -1005,9 +1004,14 @@
             document.getElementById('historySection').classList.remove('active');
             document.getElementById('workoutSelection').style.display = 'block';
             
-            // Clear current workout
+            // Clear current workout session and reset selection
             currentWorkout = null;
             exerciseCounter = 0;
+            
+            // Remove any selected workout type
+            document.querySelectorAll('.workout-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
         }
 
         function addExercise() {
@@ -1074,11 +1078,32 @@
                 comments: '',
                 setData: [{ reps: '', weight: '' }]
             });
+
+            // Update exercise count display
+            updateExerciseCount();
         }
 
         function deleteExercise(exerciseId) {
             document.getElementById(exerciseId).remove();
             currentWorkout.exercises = currentWorkout.exercises.filter(ex => ex.id !== exerciseId);
+            updateExerciseCount();
+        }
+
+        function updateExerciseCount() {
+            const exerciseCountElement = document.getElementById('exerciseCount');
+            if (!currentWorkout || !currentWorkout.exercises) {
+                exerciseCountElement.textContent = 'No exercises added yet';
+                return;
+            }
+            
+            const count = currentWorkout.exercises.length;
+            if (count === 0) {
+                exerciseCountElement.textContent = 'No exercises added yet';
+            } else if (count === 1) {
+                exerciseCountElement.textContent = '1 exercise added';
+            } else {
+                exerciseCountElement.textContent = `${count} exercises added`;
+            }
         }
 
         function updateExerciseName(exerciseId, name) {
@@ -1184,12 +1209,13 @@
             history.push(currentWorkout);
             localStorage.setItem(STORAGE_KEYS.WORKOUT_HISTORY, JSON.stringify(history));
 
-            // Clear current workout
+            // Clear current workout session
             currentWorkout = null;
             exerciseCounter = 0;
 
             // Show success message
-            showSuccessFeedback('Workout saved successfully!');
+            const workoutType = currentWorkout.type;
+            showSuccessFeedback(`Complete ${workoutType} workout saved!`);
 
             // Return to selection
             backToSelection();
