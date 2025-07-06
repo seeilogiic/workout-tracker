@@ -674,6 +674,80 @@
             position: relative;
         }
 
+        .previous-exercise-info {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border: 2px solid #10b981;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .previous-exercise-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        .previous-exercise-header h4 {
+            color: #10b981;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .previous-exercise-details {
+            color: #e2e8f0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .previous-exercise-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .previous-stat {
+            background: #475569;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .previous-stat-label {
+            color: #94a3b8;
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+
+        .previous-stat-value {
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .previous-exercise-date {
+            color: #94a3b8;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .previous-exercise-volume {
+            color: #10b981;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
         .save-exercise-btn {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
@@ -1355,8 +1429,20 @@
                     <div class="exercise-input-form">
                         <div class="input-group full-width">
                             <label>Exercise Name</label>
-                            <input type="text" id="exerciseNameInput" placeholder="e.g., Bench Press" oninput="showExerciseSuggestions()" onfocus="showExerciseSuggestions()">
+                            <input type="text" id="exerciseNameInput" placeholder="e.g., Bench Press" oninput="showExerciseSuggestions()" onfocus="showExerciseSuggestions()" onchange="loadPreviousExercise()">
                             <div id="exerciseSuggestions" class="exercise-suggestions"></div>
+                        </div>
+                        
+                        <div class="input-group full-width">
+                            <label>Weight Type</label>
+                            <input type="text" id="exerciseWeightTypeInput" placeholder="e.g., Barbell, Dumbbell, Machine" onchange="loadPreviousExercise()">
+                        </div>
+
+                        <div id="previousExerciseInfo" class="previous-exercise-info" style="display: none;">
+                            <div class="previous-exercise-header">
+                                <h4>Last Time You Did This Exercise:</h4>
+                            </div>
+                            <div id="previousExerciseDetails" class="previous-exercise-details"></div>
                         </div>
                         
                         <div class="exercise-inputs">
@@ -1374,11 +1460,6 @@
                                 <label>Weight (lbs)</label>
                                 <input type="number" id="exerciseWeightInput" min="0" step="0.5" placeholder="0">
                             </div>
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label>Weight Type</label>
-                            <input type="text" id="exerciseWeightTypeInput" placeholder="e.g., Barbell, Dumbbell, Machine">
                         </div>
                         
                         <div class="input-group full-width">
@@ -1964,6 +2045,7 @@
         function selectExerciseSuggestion(exerciseName) {
             document.getElementById('exerciseNameInput').value = exerciseName;
             document.getElementById('exerciseSuggestions').style.display = 'none';
+            loadPreviousExercise();
         }
 
         // Close suggestions when clicking outside
@@ -2002,6 +2084,95 @@
             });
             
             return exerciseData.sort((a, b) => a.date - b.date);
+        }
+
+        // Load previous exercise data
+        function loadPreviousExercise() {
+            const exerciseName = document.getElementById('exerciseNameInput').value.trim();
+            const weightType = document.getElementById('exerciseWeightTypeInput').value.trim();
+            const previousInfo = document.getElementById('previousExerciseInfo');
+            const previousDetails = document.getElementById('previousExerciseDetails');
+            
+            if (!exerciseName || !weightType) {
+                previousInfo.style.display = 'none';
+                return;
+            }
+            
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            let previousExercise = null;
+            
+            // Find the most recent instance of this exact exercise and weight type
+            for (let i = history.length - 1; i >= 0; i--) {
+                const workout = history[i];
+                for (let j = workout.exercises.length - 1; j >= 0; j--) {
+                    const exercise = workout.exercises[j];
+                    if (normalizeExerciseName(exercise.name) === normalizeExerciseName(exerciseName) && 
+                        exercise.weightType && 
+                        exercise.weightType.toLowerCase() === weightType.toLowerCase()) {
+                        previousExercise = {
+                            ...exercise,
+                            workoutDate: workout.date,
+                            workoutType: workout.type
+                        };
+                        break;
+                    }
+                }
+                if (previousExercise) break;
+            }
+            
+            if (!previousExercise) {
+                // Try to find any previous instance of this exercise (any weight type)
+                for (let i = history.length - 1; i >= 0; i--) {
+                    const workout = history[i];
+                    for (let j = workout.exercises.length - 1; j >= 0; j--) {
+                        const exercise = workout.exercises[j];
+                        if (normalizeExerciseName(exercise.name) === normalizeExerciseName(exerciseName)) {
+                            previousExercise = {
+                                ...exercise,
+                                workoutDate: workout.date,
+                                workoutType: workout.type
+                            };
+                            break;
+                        }
+                    }
+                    if (previousExercise) break;
+                }
+            }
+            
+            if (previousExercise) {
+                const date = new Date(previousExercise.workoutDate);
+                const dateStr = date.toLocaleDateString();
+                const volume = calculateVolume(previousExercise.sets, previousExercise.reps, previousExercise.weight);
+                
+                previousDetails.innerHTML = `
+                    <div class="previous-exercise-stats">
+                        <div class="previous-stat">
+                            <div class="previous-stat-label">Sets</div>
+                            <div class="previous-stat-value">${previousExercise.sets}</div>
+                        </div>
+                        <div class="previous-stat">
+                            <div class="previous-stat-label">Reps</div>
+                            <div class="previous-stat-value">${previousExercise.reps}</div>
+                        </div>
+                        <div class="previous-stat">
+                            <div class="previous-stat-label">Weight</div>
+                            <div class="previous-stat-value">${previousExercise.weight} lbs</div>
+                        </div>
+                    </div>
+                    <div class="previous-exercise-volume">Volume: ${volume.toLocaleString()} lbs</div>
+                    <div class="previous-exercise-date">${dateStr} - ${previousExercise.workoutType} workout</div>
+                    ${previousExercise.comments ? `<div style="color: #94a3b8; font-size: 12px; margin-top: 5px; font-style: italic;">"${previousExercise.comments}"</div>` : ''}
+                `;
+                
+                previousInfo.style.display = 'block';
+                
+                // Auto-fill the form with previous values (optional - you can remove this if you prefer)
+                // document.getElementById('exerciseSetsInput').value = previousExercise.sets;
+                // document.getElementById('exerciseRepsInput').value = previousExercise.reps;
+                // document.getElementById('exerciseWeightInput').value = previousExercise.weight;
+            } else {
+                previousInfo.style.display = 'none';
+            }
         }
 
         // Progressive overload recommendations
@@ -2062,6 +2233,9 @@
             document.getElementById('exerciseWeightTypeInput').value = '';
             document.getElementById('exerciseCommentsInput').value = '';
             
+            // Hide previous exercise info
+            document.getElementById('previousExerciseInfo').style.display = 'none';
+            
             // Focus on exercise name input
             document.getElementById('exerciseNameInput').focus();
             
@@ -2114,6 +2288,9 @@
             document.getElementById('exerciseWeightInput').value = '';
             document.getElementById('exerciseWeightTypeInput').value = '';
             document.getElementById('exerciseCommentsInput').value = '';
+            
+            // Hide previous exercise info
+            document.getElementById('previousExerciseInfo').style.display = 'none';
             
             // Focus on exercise name input for the next exercise
             document.getElementById('exerciseNameInput').focus();
