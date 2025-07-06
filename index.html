@@ -376,6 +376,131 @@
             transform: translateY(-2px);
         }
 
+        /* History Styles */
+        .history-section {
+            display: none;
+        }
+
+        .history-section.active {
+            display: block;
+        }
+
+        .history-header {
+            background: #8b5cf6;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .history-header h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .history-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .history-btn {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .history-btn:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .workout-history-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .workout-history-item:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .workout-history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .workout-history-date {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .workout-history-type {
+            background: #8b5cf6;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .workout-history-exercises {
+            margin-top: 15px;
+        }
+
+        .exercise-summary {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .exercise-summary-name {
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 5px;
+        }
+
+        .exercise-summary-details {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+
+        .no-history h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .no-history p {
+            font-size: 14px;
+        }
+
         @media (max-width: 480px) {
             body {
                 padding: 10px;
@@ -434,6 +559,7 @@
                     <p id="workoutCount">No workouts recorded yet</p>
                 </div>
 
+                <button class="history-btn" onclick="showHistory()">📊 View Workout History</button>
                 <button class="clear-btn" onclick="clearData()">Clear All Data</button>
             </div>
 
@@ -449,6 +575,23 @@
                 <div id="exercisesContainer"></div>
 
                 <button class="save-workout-btn" onclick="saveWorkout()">💾 Save Workout</button>
+                <button class="back-btn" onclick="backToSelection()">← Back to Workout Types</button>
+            </div>
+
+            <!-- History Section -->
+            <div id="historySection" class="history-section">
+                <div class="history-header">
+                    <h2>📊 Workout History</h2>
+                    <p>Your completed workouts</p>
+                </div>
+
+                <div id="historyContainer">
+                    <div class="no-history">
+                        <h3>No workouts yet</h3>
+                        <p>Complete your first workout to see it here!</p>
+                    </div>
+                </div>
+
                 <button class="back-btn" onclick="backToSelection()">← Back to Workout Types</button>
             </div>
         </div>
@@ -513,6 +656,7 @@
         function showWorkoutTracking(workoutType) {
             document.getElementById('workoutSelection').style.display = 'none';
             document.getElementById('workoutTracking').classList.add('active');
+            document.getElementById('historySection').classList.remove('active');
             
             document.getElementById('currentWorkoutType').textContent = workoutType.charAt(0).toUpperCase() + workoutType.slice(1);
             document.getElementById('workoutDate').textContent = new Date().toLocaleDateString() + ' at ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -520,8 +664,72 @@
             document.getElementById('exercisesContainer').innerHTML = '';
         }
 
+        function showHistory() {
+            document.getElementById('workoutSelection').style.display = 'none';
+            document.getElementById('workoutTracking').classList.remove('active');
+            document.getElementById('historySection').classList.add('active');
+            
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            const historyContainer = document.getElementById('historyContainer');
+            
+            if (history.length === 0) {
+                historyContainer.innerHTML = `
+                    <div class="no-history">
+                        <h3>No workouts yet</h3>
+                        <p>Complete your first workout to see it here!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort history by date (newest first)
+            history.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            const historyHTML = history.map(workout => {
+                const workoutDate = new Date(workout.date);
+                const formattedDate = workoutDate.toLocaleDateString() + ' at ' + workoutDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                const exercisesHTML = workout.exercises.map(exercise => {
+                    const exerciseName = exercise.name || 'Unnamed Exercise';
+                    const exerciseDetails = [];
+                    
+                    if (exercise.sets) exerciseDetails.push(`${exercise.sets} sets`);
+                    if (exercise.reps) exerciseDetails.push(`${exercise.reps} reps`);
+                    if (exercise.weight) exerciseDetails.push(`${exercise.weight} lbs`);
+                    
+                    const detailsText = exerciseDetails.length > 0 ? exerciseDetails.join(' • ') : 'No details';
+                    
+                    return `
+                        <div class="exercise-summary">
+                            <div class="exercise-summary-name">${exerciseName}</div>
+                            <div class="exercise-summary-details">${detailsText}</div>
+                        </div>
+                    `;
+                }).join('');
+                
+                return `
+                    <div class="workout-history-item">
+                        <div class="workout-history-header">
+                            <div class="workout-history-date">${formattedDate}</div>
+                            <div class="workout-history-type">${workout.type}</div>
+                        </div>
+                        <div class="workout-history-exercises">
+                            ${exercisesHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            historyContainer.innerHTML = historyHTML;
+        }
+
         function backToSelection() {
             document.getElementById('workoutTracking').classList.remove('active');
+            document.getElementById('historySection').classList.remove('active');
             document.getElementById('workoutSelection').style.display = 'block';
             
             // Clear current workout
