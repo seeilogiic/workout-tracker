@@ -2099,45 +2099,45 @@ body {
 
     .calendar-week-days {
         grid-template-columns: repeat(7, 1fr);
-        gap: 6px;
+        gap: 4px;
     }
 
     .calendar-day {
-        width: 60px;
-        height: 60px;
-        padding: 15px;
+        width: 45px;
+        height: 45px;
+        padding: 10px;
     }
 
     .calendar-day-number {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .workout-indicator,
     .note-indicator {
-        width: 5px;
-        height: 5px;
+        width: 4px;
+        height: 4px;
     }
 
     .calendar-day-content {
-        width: 160px;
-        margin-top: 6px;
+        width: 140px;
+        margin-top: 4px;
     }
 
     .day-note-bubble,
     .day-workout-bubble,
     .day-empty-bubble {
-        padding: 4px 6px;
-        font-size: 10px;
+        padding: 3px 4px;
+        font-size: 9px;
     }
 
     .note-bubble-text,
     .workout-bubble-text,
     .empty-bubble-text {
-        font-size: 9px;
+        font-size: 8px;
     }
 
     .workout-detail-item {
-        font-size: 8px;
+        font-size: 7px;
     }
 
     .calendar-year-grid {
@@ -2202,5 +2202,91 @@ body {
     .theme-btn,
     .color-btn {
         width: 100%;
+    }
+
+    .calendar-week-days {
+        gap: 2px;
+    }
+
+    .calendar-day {
+        width: 35px;
+        height: 35px;
+        padding: 6px;
+    }
+
+    .calendar-day-number {
+        font-size: 12px;
+    }
+
+    .workout-indicator,
+    .note-indicator {
+        width: 3px;
+        height: 3px;
+    }
+
+    .calendar-day-content {
+        width: 120px;
+        margin-top: 3px;
+    }
+
+    .day-note-bubble,
+    .day-workout-bubble,
+    .day-empty-bubble {
+        padding: 2px 3px;
+        font-size: 8px;
+    }
+
+    .note-bubble-text,
+    .workout-bubble-text,
+    .empty-bubble-text {
+        font-size: 7px;
+    }
+
+    .workout-detail-item {
+        font-size: 6px;
+    }
+}
+
+@media (max-width: 360px) {
+    .calendar-week-days {
+        gap: 1px;
+    }
+
+    .calendar-day {
+        width: 30px;
+        height: 30px;
+        padding: 4px;
+    }
+
+    .calendar-day-number {
+        font-size: 10px;
+    }
+
+    .workout-indicator,
+    .note-indicator {
+        width: 2px;
+        height: 2px;
+    }
+
+    .calendar-day-content {
+        width: 100px;
+        margin-top: 2px;
+    }
+
+    .day-note-bubble,
+    .day-workout-bubble,
+    .day-empty-bubble {
+        padding: 1px 2px;
+        font-size: 7px;
+    }
+
+    .note-bubble-text,
+    .workout-bubble-text,
+    .empty-bubble-text {
+        font-size: 6px;
+    }
+
+    .workout-detail-item {
+        font-size: 5px;
     }
 } 
