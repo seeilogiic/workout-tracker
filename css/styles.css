@@ -2186,12 +2186,20 @@ body {
     }
     
     .calendar-controls {
-        flex-direction: column;
+        flex-direction: row;
         gap: 10px;
+        align-items: center;
     }
     
     .calendar-nav-btn {
-        width: 100%;
+        width: auto;
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    .calendar-controls h3 {
+        font-size: 16px;
+        flex: 1;
     }
     
     .theme-buttons,
@@ -2248,6 +2256,23 @@ body {
 }
 
 @media (max-width: 360px) {
+    .calendar-controls {
+        flex-direction: row;
+        gap: 6px;
+        align-items: center;
+    }
+    
+    .calendar-nav-btn {
+        width: auto;
+        padding: 4px 6px;
+        font-size: 10px;
+    }
+
+    .calendar-controls h3 {
+        font-size: 12px;
+        flex: 1;
+    }
+
     .calendar-week-days {
         gap: 1px;
     }
