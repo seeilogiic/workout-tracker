@@ -1,6 +1,5 @@
 // Calendar Functions
-let currentWeekStart = new Date();
-currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay()); // Start of current week (Sunday)
+let selectedDate = new Date(); // Start with today as selected
 
 function loadCalendar() {
     updateCalendarDisplay();
@@ -10,36 +9,30 @@ function loadCalendar() {
 function updateCalendarDisplay() {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December'];
-    const weekEnd = new Date(currentWeekStart);
-    weekEnd.setDate(weekEnd.getDate() + 6);
-    
-    let displayText = '';
-    if (currentWeekStart.getMonth() === weekEnd.getMonth()) {
-        displayText = `${monthNames[currentWeekStart.getMonth()]} ${currentWeekStart.getDate()} - ${weekEnd.getDate()}, ${currentWeekStart.getFullYear()}`;
-    } else if (currentWeekStart.getFullYear() === weekEnd.getFullYear()) {
-        displayText = `${monthNames[currentWeekStart.getMonth()]} ${currentWeekStart.getDate()} - ${monthNames[weekEnd.getMonth()]} ${weekEnd.getDate()}, ${currentWeekStart.getFullYear()}`;
-    } else {
-        displayText = `${monthNames[currentWeekStart.getMonth()]} ${currentWeekStart.getDate()}, ${currentWeekStart.getFullYear()} - ${monthNames[weekEnd.getMonth()]} ${weekEnd.getDate()}, ${weekEnd.getFullYear()}`;
-    }
-    
-    document.getElementById('currentMonthYear').textContent = displayText;
+    const selectedDateText = `${monthNames[selectedDate.getMonth()]} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`;
+    document.getElementById('currentMonthYear').textContent = selectedDateText;
 }
 
 function previousWeek() {
-    currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+    selectedDate.setDate(selectedDate.getDate() - 7);
     updateCalendarDisplay();
     renderCalendar();
 }
 
 function nextWeek() {
-    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+    selectedDate.setDate(selectedDate.getDate() + 7);
+    updateCalendarDisplay();
+    renderCalendar();
+}
+
+function selectDate(date) {
+    selectedDate = new Date(date);
     updateCalendarDisplay();
     renderCalendar();
 }
 
 function renderCalendar() {
     const calendarDays = document.getElementById('calendarDays');
-    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     
     // Get workout data
     const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
@@ -47,26 +40,32 @@ function renderCalendar() {
     
     let calendarHTML = '';
     
+    // Calculate the 7 days (3 before, selected day, 3 after)
+    const weekDates = [];
+    for (let i = -3; i <= 3; i++) {
+        const date = new Date(selectedDate);
+        date.setDate(selectedDate.getDate() + i);
+        weekDates.push(date);
+    }
+    
     // Add weekday headers
     calendarHTML += '<div class="calendar-week-header">';
-    weekdays.forEach(day => {
-        calendarHTML += `<div class="weekday-header">${day}</div>`;
+    weekDates.forEach(date => {
+        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+        calendarHTML += `<div class="weekday-header">${dayName}</div>`;
     });
     calendarHTML += '</div>';
     
     // Add week days
     calendarHTML += '<div class="calendar-week-days">';
-    for (let i = 0; i < 7; i++) {
-        const currentDate = new Date(currentWeekStart);
-        currentDate.setDate(currentWeekStart.getDate() + i);
-        
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1;
-        const day = currentDate.getDate();
+    weekDates.forEach(date => {
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
         const dateKey = `${year}-${month}-${day}`;
         
-        const isToday = currentDate.toDateString() === new Date().toDateString();
-        const isOtherMonth = currentDate.getMonth() !== currentWeekStart.getMonth();
+        const isSelected = date.toDateString() === selectedDate.toDateString();
+        const isToday = date.toDateString() === new Date().toDateString();
         
         // Get workouts for this day
         const dayWorkouts = history.filter(workout => {
@@ -79,23 +78,23 @@ function renderCalendar() {
         const dayNote = notes[dateKey];
         
         let dayClass = 'calendar-day';
+        if (isSelected) dayClass += ' selected';
         if (isToday) dayClass += ' today';
-        if (isOtherMonth) dayClass += ' other-month';
         
         calendarHTML += `
-            <div class="${dayClass}" onclick="showDayDetails(${year}, ${month}, ${day})">
-                <div class="calendar-day-header">
+            <div class="${dayClass}" onclick="selectDate('${date.toISOString()}')">
+                <div class="calendar-day-circle">
                     <div class="calendar-day-number">${day}</div>
                     <div class="calendar-day-indicators">
-                        ${dayWorkouts.length > 0 ? '<div class="workout-indicator">W</div>' : ''}
-                        ${dayNote ? '<div class="note-indicator">N</div>' : ''}
+                        ${dayWorkouts.length > 0 ? '<div class="workout-indicator"></div>' : ''}
+                        ${dayNote ? '<div class="note-indicator"></div>' : ''}
                     </div>
                 </div>
                 <div class="calendar-day-content">
                     ${dayNote ? `
                         <div class="day-note-bubble">
                             <div class="note-bubble-icon">📝</div>
-                            <div class="note-bubble-text">${dayNote.length > 30 ? dayNote.substring(0, 30) + '...' : dayNote}</div>
+                            <div class="note-bubble-text">${dayNote.length > 20 ? dayNote.substring(0, 20) + '...' : dayNote}</div>
                         </div>
                     ` : ''}
                     ${dayWorkouts.length > 0 ? `
@@ -104,10 +103,15 @@ function renderCalendar() {
                             <div class="workout-bubble-text">${dayWorkouts[0].type}${dayWorkouts.length > 1 ? ` +${dayWorkouts.length - 1}` : ''}</div>
                         </div>
                     ` : ''}
+                    ${!dayNote && dayWorkouts.length === 0 ? `
+                        <div class="day-empty-bubble">
+                            <div class="empty-bubble-text">No activities today</div>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         `;
-    }
+    });
     calendarHTML += '</div>';
     
     calendarDays.innerHTML = calendarHTML;
