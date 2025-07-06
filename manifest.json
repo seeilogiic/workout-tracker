@@ -1,11 +1,11 @@
 {
-  "name": "Simple Workout Tracker",
-  "short_name": "Workout",
-  "description": "A simple workout tracking app that saves data locally",
+  "name": "Advanced Workout Tracker",
+  "short_name": "Workout Tracker",
+  "description": "A comprehensive workout tracking app with exercise statistics, volume tracking, and progressive overload recommendations",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#3b82f6",
+  "background_color": "#0f172a",
+  "theme_color": "#10b981",
   "orientation": "portrait",
   "icons": [
     {
