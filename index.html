@@ -1289,13 +1289,7 @@
                         
                         <div class="input-group full-width">
                             <label>Weight Type</label>
-                            <select id="exerciseWeightTypeInput">
-                                <option value="Barbell">Barbell</option>
-                                <option value="Smith Machine">Smith Machine</option>
-                                <option value="Dumbbell">Dumbbell</option>
-                                <option value="Machine">Machine</option>
-                                <option value="Other">Other</option>
-                            </select>
+                            <input type="text" id="exerciseWeightTypeInput" placeholder="e.g., Barbell, Dumbbell, Machine">
                         </div>
                         
                         <div class="input-group full-width">
@@ -1803,7 +1797,7 @@
             document.getElementById('exerciseSetsInput').value = '3';
             document.getElementById('exerciseRepsInput').value = '10';
             document.getElementById('exerciseWeightInput').value = '';
-            document.getElementById('exerciseWeightTypeInput').value = 'Barbell';
+            document.getElementById('exerciseWeightTypeInput').value = '';
             document.getElementById('exerciseCommentsInput').value = '';
             
             // Focus on exercise name input
@@ -1856,7 +1850,7 @@
             document.getElementById('exerciseSetsInput').value = '3';
             document.getElementById('exerciseRepsInput').value = '10';
             document.getElementById('exerciseWeightInput').value = '';
-            document.getElementById('exerciseWeightTypeInput').value = 'Barbell';
+            document.getElementById('exerciseWeightTypeInput').value = '';
             document.getElementById('exerciseCommentsInput').value = '';
             
             // Focus on exercise name input for the next exercise
