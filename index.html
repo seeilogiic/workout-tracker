@@ -1288,6 +1288,17 @@
                         </div>
                         
                         <div class="input-group full-width">
+                            <label>Weight Type</label>
+                            <select id="exerciseWeightTypeInput">
+                                <option value="Barbell">Barbell</option>
+                                <option value="Smith Machine">Smith Machine</option>
+                                <option value="Dumbbell">Dumbbell</option>
+                                <option value="Machine">Machine</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group full-width">
                             <label>Comments</label>
                             <textarea id="exerciseCommentsInput" placeholder="How did it feel? Any notes?" rows="2"></textarea>
                         </div>
@@ -1534,15 +1545,26 @@
             return weight * (36 / (37 - reps));
         }
 
+        // Normalize exercise name (remove 's' at end and convert to lowercase for comparison)
+        function normalizeExerciseName(name) {
+            return name.toLowerCase().replace(/s$/, '');
+        }
+
         // Load list of all exercises for dropdown
         function loadExerciseList() {
             const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
-            const exerciseSet = new Set();
+            const exerciseMap = new Map(); // normalized name -> original names
             
             history.forEach(workout => {
                 workout.exercises.forEach(exercise => {
                     if (exercise.name) {
-                        exerciseSet.add(exercise.name);
+                        const normalizedName = normalizeExerciseName(exercise.name);
+                        if (!exerciseMap.has(normalizedName)) {
+                            exerciseMap.set(normalizedName, []);
+                        }
+                        if (!exerciseMap.get(normalizedName).includes(exercise.name)) {
+                            exerciseMap.get(normalizedName).push(exercise.name);
+                        }
                     }
                 });
             });
@@ -1550,10 +1572,12 @@
             const exerciseSelect = document.getElementById('exerciseSelect');
             exerciseSelect.innerHTML = '<option value="">Choose an exercise...</option>';
             
-            Array.from(exerciseSet).sort().forEach(exercise => {
+            // Sort by normalized name and use the most common original name as display
+            Array.from(exerciseMap.entries()).sort().forEach(([normalizedName, originalNames]) => {
                 const option = document.createElement('option');
-                option.value = exercise;
-                option.textContent = exercise;
+                option.value = normalizedName;
+                // Use the first original name as display (or the most common one)
+                option.textContent = originalNames[0];
                 exerciseSelect.appendChild(option);
             });
         }
@@ -1571,15 +1595,16 @@
             const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
             const exerciseData = [];
             
-            // Collect all data for this exercise
+            // Collect all data for this exercise (using normalized names)
             history.forEach(workout => {
                 workout.exercises.forEach(exercise => {
-                    if (exercise.name === selectedExercise && exercise.weight && exercise.reps) {
+                    if (normalizeExerciseName(exercise.name) === selectedExercise && exercise.weight && exercise.reps) {
                         exerciseData.push({
                             date: new Date(workout.date),
                             weight: exercise.weight,
                             reps: exercise.reps,
                             sets: exercise.sets,
+                            weightType: exercise.weightType || 'Other',
                             oneRM: calculate1RM(exercise.weight, exercise.reps)
                         });
                     }
@@ -1738,7 +1763,8 @@
             
             const sessionsHTML = data.map(session => {
                 const dateStr = session.date.toLocaleDateString();
-                const details = `${session.sets} x ${session.reps} @ ${session.weight} lbs (1RM: ${session.oneRM.toFixed(1)} lbs)`;
+                const weightType = session.weightType || 'Other';
+                const details = `${session.sets} x ${session.reps} @ ${session.weight} lbs (${weightType}) - 1RM: ${session.oneRM.toFixed(1)} lbs`;
                 
                 return `
                     <div class="session-item">
@@ -1777,6 +1803,7 @@
             document.getElementById('exerciseSetsInput').value = '3';
             document.getElementById('exerciseRepsInput').value = '10';
             document.getElementById('exerciseWeightInput').value = '';
+            document.getElementById('exerciseWeightTypeInput').value = 'Barbell';
             document.getElementById('exerciseCommentsInput').value = '';
             
             // Focus on exercise name input
@@ -1795,6 +1822,7 @@
             const sets = parseInt(document.getElementById('exerciseSetsInput').value);
             const reps = parseInt(document.getElementById('exerciseRepsInput').value);
             const weight = parseFloat(document.getElementById('exerciseWeightInput').value) || 0;
+            const weightType = document.getElementById('exerciseWeightTypeInput').value;
             const comments = document.getElementById('exerciseCommentsInput').value.trim();
 
             if (!name) {
@@ -1813,6 +1841,7 @@
                 sets: sets,
                 reps: reps,
                 weight: weight,
+                weightType: weightType,
                 comments: comments
             });
 
@@ -1827,6 +1856,7 @@
             document.getElementById('exerciseSetsInput').value = '3';
             document.getElementById('exerciseRepsInput').value = '10';
             document.getElementById('exerciseWeightInput').value = '';
+            document.getElementById('exerciseWeightTypeInput').value = 'Barbell';
             document.getElementById('exerciseCommentsInput').value = '';
             
             // Focus on exercise name input for the next exercise
@@ -1847,7 +1877,8 @@
             }
 
             const exercisesHTML = currentWorkout.exercises.map((exercise, index) => {
-                const details = `${exercise.sets} x ${exercise.reps} - ${exercise.weight} lbs`;
+                const weightType = exercise.weightType || 'Other';
+                const details = `${exercise.sets} x ${exercise.reps} - ${exercise.weight} lbs (${weightType})`;
                 const comments = exercise.comments ? `<div class="exercise-bubble-comments">${exercise.comments}</div>` : '';
                 
                 return `
