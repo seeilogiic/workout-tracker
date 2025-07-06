@@ -20,7 +20,7 @@ const GITHUB_CONFIG = {
 let currentWorkout = null;
 let exerciseCounter = 0;
 let workoutStartTime = null;
-let currentCalendarDate = new Date();
+
 
 // Menu Functions
 function toggleMenu() {

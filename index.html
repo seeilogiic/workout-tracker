@@ -172,38 +172,16 @@
             <div id="calendarSection" class="calendar-section">
                 <div class="calendar-header">
                     <h2>Workout Calendar</h2>
-                    <p>Monthly view of your workouts and goals</p>
+                    <p>Weekly view of your workouts and notes</p>
                 </div>
 
                 <div class="calendar-controls">
-                    <button class="calendar-nav-btn" onclick="previousMonth()">←</button>
+                    <button class="calendar-nav-btn" onclick="previousWeek()">←</button>
                     <h3 id="currentMonthYear">January 2024</h3>
-                    <button class="calendar-nav-btn" onclick="nextMonth()">→</button>
+                    <button class="calendar-nav-btn" onclick="nextWeek()">→</button>
                 </div>
 
-                <div class="calendar-grid">
-                    <div class="calendar-weekdays">
-                        <div>Sun</div>
-                        <div>Mon</div>
-                        <div>Tue</div>
-                        <div>Wed</div>
-                        <div>Thu</div>
-                        <div>Fri</div>
-                        <div>Sat</div>
-                    </div>
-                    <div id="calendarDays" class="calendar-days"></div>
-                </div>
-
-                <div class="calendar-legend">
-                    <div class="legend-item">
-                        <div class="legend-dot workout-dot"></div>
-                        <span>Workout</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-dot note-dot"></div>
-                        <span>Note/Goal</span>
-                    </div>
-                </div>
+                <div id="calendarDays" class="calendar-days"></div>
             </div>
 
             <!-- Stats Section -->
