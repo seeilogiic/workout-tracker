@@ -16,25 +16,46 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             min-height: 100vh;
             padding: 20px;
+            color: #e2e8f0;
         }
 
         .container {
             max-width: 400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: #1e293b;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             overflow: hidden;
+            border: 1px solid #334155;
+            backdrop-filter: blur(10px);
         }
 
         .header {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
             color: white;
             padding: 30px 20px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .header h1 {
@@ -59,31 +80,50 @@
         }
 
         .workout-btn {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 2px solid #475569;
+            border-radius: 20px;
             padding: 20px;
             font-size: 18px;
             font-weight: 600;
-            color: #334155;
+            color: #e2e8f0;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .workout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+            transition: left 0.5s;
         }
 
         .workout-btn:hover {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            border-color: #10b981;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .workout-btn:hover::before {
+            left: 100%;
         }
 
         .workout-btn.selected {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            border-color: #3b82f6;
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            border-color: #10b981;
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+            transform: translateY(-2px);
         }
 
         .workout-btn.selected::after {
@@ -92,62 +132,125 @@
         }
 
         .status {
-            background: #f1f5f9;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 20px;
             padding: 20px;
             text-align: center;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #06b6d4, #10b981);
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         .status h3 {
-            color: #475569;
+            color: #e2e8f0;
             font-size: 16px;
             margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .status p {
-            color: #64748b;
+            color: #94a3b8;
             font-size: 14px;
         }
 
         .clear-btn {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 15px 30px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .clear-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
         .clear-btn:hover {
-            background: #dc2626;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(239, 68, 68, 0.4);
+        }
+
+        .clear-btn:hover::before {
+            left: 100%;
         }
 
         .last-workout {
-            background: #ecfdf5;
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
             border: 2px solid #10b981;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 20px;
             text-align: center;
             margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .last-workout::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(16, 185, 129, 0.1) 50%, transparent 70%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
         }
 
         .last-workout h3 {
-            color: #065f46;
+            color: #d1fae5;
             font-size: 16px;
             margin-bottom: 10px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
         }
 
         .last-workout p {
-            color: #047857;
+            color: #10b981;
             font-size: 18px;
             font-weight: 600;
+            position: relative;
+            z-index: 1;
         }
 
         /* Workout Tracking Styles */
@@ -161,12 +264,25 @@
         }
 
         .workout-header {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
             color: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 20px;
             margin-bottom: 20px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workout-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
         }
 
         .workout-header h2 {
@@ -180,31 +296,75 @@
         }
 
         .add-exercise-btn {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 15px 30px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
             margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .add-exercise-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
         .add-exercise-btn:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .add-exercise-btn:hover::before {
+            left: 100%;
         }
 
         .exercise-item {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 2px solid #475569;
+            border-radius: 20px;
             padding: 20px;
             margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-item:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .exercise-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .exercise-item:hover::before {
+            opacity: 1;
         }
 
         .exercise-header {
@@ -256,16 +416,25 @@
         }
 
         .input-group input, .input-group textarea {
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
+            padding: 12px;
+            border: 2px solid #475569;
+            border-radius: 12px;
             font-size: 14px;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #1e293b;
+            color: #e2e8f0;
+            backdrop-filter: blur(10px);
         }
 
         .input-group input:focus, .input-group textarea:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .input-group input::placeholder, .input-group textarea::placeholder {
+            color: #64748b;
         }
 
         .input-group.full-width {
@@ -338,42 +507,79 @@
         }
 
         .save-workout-btn {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 15px 30px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
             margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .save-workout-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
         .save-workout-btn:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .save-workout-btn:hover::before {
+            left: 100%;
         }
 
         .back-btn {
-            background: #6b7280;
+            background: linear-gradient(135deg, #475569 0%, #64748b 100%);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 15px 30px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
             margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
         .back-btn:hover {
-            background: #4b5563;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(71, 85, 105, 0.4);
+        }
+
+        .back-btn:hover::before {
+            left: 100%;
         }
 
         /* History Styles */
@@ -386,12 +592,25 @@
         }
 
         .history-header {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%);
             color: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 20px;
             margin-bottom: 20px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .history-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
         }
 
         .history-header h2 {
@@ -405,39 +624,76 @@
         }
 
         .history-btn {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 15px 30px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
             margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .history-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
         .history-btn:hover {
-            background: #7c3aed;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.4);
+        }
+
+        .history-btn:hover::before {
+            left: 100%;
         }
 
         .workout-history-item {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 2px solid #475569;
+            border-radius: 20px;
             padding: 20px;
             margin-bottom: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workout-history-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #06b6d4, #10b981);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .workout-history-item:hover {
-            border-color: #8b5cf6;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
+            border-color: #06b6d4;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.2);
+        }
+
+        .workout-history-item:hover::before {
+            opacity: 1;
         }
 
         .workout-history-header {
@@ -454,13 +710,20 @@
         }
 
         .workout-history-type {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 25px;
             font-size: 12px;
             font-weight: 600;
             text-transform: capitalize;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .workout-history-type:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
         }
 
         .workout-history-exercises {
@@ -468,22 +731,32 @@
         }
 
         .exercise-summary {
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 8px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border: 1px solid #475569;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-summary:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
         }
 
         .exercise-summary-name {
             font-weight: 600;
-            color: #334155;
-            margin-bottom: 5px;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
 
         .exercise-summary-details {
             font-size: 12px;
-            color: #64748b;
+            color: #94a3b8;
+            line-height: 1.4;
         }
 
         .no-history {
