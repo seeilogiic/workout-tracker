@@ -487,6 +487,436 @@
             transform: translateY(-2px);
         }
 
+        /* Body Weight Tracking Styles */
+        .weight-section {
+            display: none;
+            padding: 30px 20px;
+        }
+
+        .weight-section.active {
+            display: block;
+        }
+
+        .weight-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .weight-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #e2e8f0;
+        }
+
+        .weight-header p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .weight-input-section {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #475569;
+        }
+
+        .weight-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .weight-input-group label {
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .weight-input-group input {
+            flex: 1;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 12px;
+            color: #e2e8f0;
+            font-size: 16px;
+        }
+
+        .add-weight-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-weight-btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-2px);
+        }
+
+        .weight-chart-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .chart-period-btn {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .chart-period-btn.active,
+        .chart-period-btn:hover {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-color: #10b981;
+        }
+
+        .weight-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .weight-stat-card {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #475569;
+        }
+
+        .weight-stat-card h3 {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .weight-stat-value {
+            color: #e2e8f0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .weight-chart-container {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #475569;
+        }
+
+        .weight-history {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #475569;
+        }
+
+        .weight-history h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .weight-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #475569;
+        }
+
+        .weight-entry:last-child {
+            border-bottom: none;
+        }
+
+        .weight-entry-date {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .weight-entry-value {
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Exercise Library Styles */
+        .library-section {
+            display: none;
+            padding: 30px 20px;
+        }
+
+        .library-section.active {
+            display: block;
+        }
+
+        .library-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .library-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #e2e8f0;
+        }
+
+        .library-header p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .muscle-group-selector {
+            margin-bottom: 20px;
+        }
+
+        .muscle-group-selector label {
+            display: block;
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .muscle-group-selector select {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 12px;
+            color: #e2e8f0;
+            font-size: 16px;
+        }
+
+        .exercise-library {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #475569;
+        }
+
+        .library-intro {
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .library-intro h3 {
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .exercise-category {
+            margin-bottom: 20px;
+        }
+
+        .exercise-category h4 {
+            color: #10b981;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #475569;
+            padding-bottom: 5px;
+        }
+
+        .exercise-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .exercise-item {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #334155;
+        }
+
+        .exercise-name {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .exercise-target {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .workout-summary {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #475569;
+        }
+
+        .workout-summary h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .muscle-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .muscle-summary-item {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+
+        .muscle-summary-name {
+            color: #e2e8f0;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .muscle-summary-status {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .muscle-summary-status.recent {
+            background: #10b981;
+            color: white;
+        }
+
+        .muscle-summary-status.old {
+            background: #ef4444;
+            color: white;
+        }
+
+        .muscle-summary-status.none {
+            background: #6b7280;
+            color: white;
+        }
+
+        /* Theme Settings Styles */
+        .theme-settings {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #475569;
+        }
+
+        .theme-settings h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .theme-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .theme-mode,
+        .color-scheme {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .theme-mode label,
+        .color-scheme label {
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .theme-buttons,
+        .color-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .theme-btn,
+        .color-btn {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .theme-btn.active,
+        .theme-btn:hover,
+        .color-btn.active,
+        .color-btn:hover {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-color: #10b981;
+        }
+
+        .color-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .sync-settings {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #475569;
+        }
+
+        .sync-settings h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .sync-settings p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
         .container {
             max-width: 400px;
             margin: 20px auto;
@@ -2278,6 +2708,53 @@
                 </div>
             </div>
 
+            <!-- Body Weight Section -->
+            <div id="weightSection" class="weight-section">
+                <div class="weight-header">
+                    <h2>Body Weight Tracking</h2>
+                    <p>Track your weight trends over time</p>
+                </div>
+
+                <div class="weight-input-section">
+                    <div class="weight-input-group">
+                        <label for="weightInput">Today's Weight (lbs)</label>
+                        <input type="number" id="weightInput" min="50" max="500" step="0.1" placeholder="Enter weight">
+                        <button class="add-weight-btn" onclick="addWeightEntry()">Add Weight</button>
+                    </div>
+                </div>
+
+                <div class="weight-chart-controls">
+                    <button class="chart-period-btn active" onclick="setChartPeriod('month')">Month</button>
+                    <button class="chart-period-btn" onclick="setChartPeriod('6months')">6 Months</button>
+                    <button class="chart-period-btn" onclick="setChartPeriod('year')">Year</button>
+                    <button class="chart-period-btn" onclick="setChartPeriod('all')">All Time</button>
+                </div>
+
+                <div class="weight-stats">
+                    <div class="weight-stat-card">
+                        <h3>Current Weight</h3>
+                        <div id="currentWeight" class="weight-stat-value">-</div>
+                    </div>
+                    <div class="weight-stat-card">
+                        <h3>Change</h3>
+                        <div id="weightChange" class="weight-stat-value">-</div>
+                    </div>
+                    <div class="weight-stat-card">
+                        <h3>Average</h3>
+                        <div id="averageWeight" class="weight-stat-value">-</div>
+                    </div>
+                </div>
+
+                <div class="weight-chart-container">
+                    <canvas id="weightChart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="weight-history">
+                    <h3>Recent Entries</h3>
+                    <div id="weightHistory"></div>
+                </div>
+            </div>
+
             <!-- Statistics Section -->
             <div id="statsSection" class="stats-section">
                 <div class="stats-header">
@@ -2329,10 +2806,77 @@
                 </div>
             </div>
 
-            <!-- Sync Settings Section -->
+            <!-- Exercise Library Section -->
+            <div id="librarySection" class="library-section">
+                <div class="library-header">
+                    <h2>Exercise Library</h2>
+                    <p>Browse exercises by muscle group</p>
+                </div>
+
+                <div class="muscle-group-selector">
+                    <label for="muscleGroupSelect">Select Muscle Group:</label>
+                    <select id="muscleGroupSelect" onchange="loadMuscleGroupExercises()">
+                        <option value="">Choose a muscle group...</option>
+                        <option value="chest">Chest</option>
+                        <option value="back">Back</option>
+                        <option value="shoulders">Shoulders</option>
+                        <option value="biceps">Biceps</option>
+                        <option value="triceps">Triceps</option>
+                        <option value="forearms">Forearms</option>
+                        <option value="abs">Abs</option>
+                        <option value="legs">Legs</option>
+                        <option value="glutes">Glutes</option>
+                        <option value="calves">Calves</option>
+                    </select>
+                </div>
+
+                <div id="exerciseLibrary" class="exercise-library">
+                    <div class="library-intro">
+                        <h3>Exercise Recommendations</h3>
+                        <p>Select a muscle group to see recommended exercises and their target areas.</p>
+                    </div>
+                </div>
+
+                <div class="workout-summary">
+                    <h3>Muscle Group Summary</h3>
+                    <div id="muscleSummary" class="muscle-summary-grid"></div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
             <div id="syncSection" class="sync-section">
                 <div class="sync-header">
-                    <h2>Sync Settings</h2>
+                    <h2>Settings</h2>
+                    <p>Customize your app and sync data</p>
+                </div>
+
+                <!-- Theme Settings -->
+                <div class="theme-settings">
+                    <h3>Theme & Colors</h3>
+                    <div class="theme-options">
+                        <div class="theme-mode">
+                            <label>Theme Mode:</label>
+                            <div class="theme-buttons">
+                                <button class="theme-btn active" onclick="setTheme('dark')">Dark</button>
+                                <button class="theme-btn" onclick="setTheme('light')">Light</button>
+                            </div>
+                        </div>
+                        <div class="color-scheme">
+                            <label>Color Scheme:</label>
+                            <div class="color-buttons">
+                                <button class="color-btn active" onclick="setColorScheme('green')" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">Green</button>
+                                <button class="color-btn" onclick="setColorScheme('orange')" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">Orange</button>
+                                <button class="color-btn" onclick="setColorScheme('purple')" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">Purple</button>
+                                <button class="color-btn" onclick="setColorScheme('blue')" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">Blue</button>
+                                <button class="color-btn" onclick="setColorScheme('red')" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">Red</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sync Settings -->
+                <div class="sync-settings">
+                    <h3>Sync Settings</h3>
                     <p>Sync your workout data across devices using GitHub</p>
                 </div>
 
@@ -2431,7 +2975,9 @@
             document.getElementById('workoutTracking').classList.remove('active');
             document.getElementById('historySection').classList.remove('active');
             document.getElementById('calendarSection').classList.remove('active');
+            document.getElementById('weightSection').classList.remove('active');
             document.getElementById('statsSection').classList.remove('active');
+            document.getElementById('librarySection').classList.remove('active');
             document.getElementById('syncSection').classList.remove('active');
             
             // Remove active class from all nav items
@@ -2456,16 +3002,16 @@
                     loadCalendar();
                     break;
                 case 'weight':
-                    // TODO: Implement body weight tracking
-                    document.getElementById('workoutSelection').style.display = 'block';
+                    document.getElementById('weightSection').classList.add('active');
+                    loadWeightData();
                     break;
                 case 'settings':
                     document.getElementById('syncSection').classList.add('active');
                     loadSyncStatus();
                     break;
                 case 'library':
-                    // TODO: Implement exercise library
-                    document.getElementById('workoutSelection').style.display = 'block';
+                    document.getElementById('librarySection').classList.add('active');
+                    loadMuscleSummary();
                     break;
             }
             
@@ -2684,6 +3230,425 @@
                 renderCalendar();
                 showSuccessFeedback('Note added successfully!');
             }
+        }
+
+        // Body Weight Tracking Functions
+        let currentChartPeriod = 'month';
+        let weightChart = null;
+
+        function loadWeightData() {
+            updateWeightStats();
+            renderWeightChart();
+            loadWeightHistory();
+        }
+
+        function addWeightEntry() {
+            const weightInput = document.getElementById('weightInput');
+            const weight = parseFloat(weightInput.value);
+            
+            if (!weight || weight < 50 || weight > 500) {
+                alert('Please enter a valid weight between 50 and 500 lbs');
+                return;
+            }
+            
+            const weightData = JSON.parse(localStorage.getItem('weightData') || '[]');
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Check if entry already exists for today
+            const existingIndex = weightData.findIndex(entry => entry.date === today);
+            if (existingIndex !== -1) {
+                weightData[existingIndex].weight = weight;
+            } else {
+                weightData.push({ date: today, weight: weight });
+            }
+            
+            localStorage.setItem('weightData', JSON.stringify(weightData));
+            weightInput.value = '';
+            
+            updateWeightStats();
+            renderWeightChart();
+            loadWeightHistory();
+            showSuccessFeedback('Weight entry added!');
+        }
+
+        function updateWeightStats() {
+            const weightData = JSON.parse(localStorage.getItem('weightData') || '[]');
+            
+            if (weightData.length === 0) {
+                document.getElementById('currentWeight').textContent = '-';
+                document.getElementById('weightChange').textContent = '-';
+                document.getElementById('averageWeight').textContent = '-';
+                return;
+            }
+            
+            // Sort by date
+            weightData.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            const currentWeight = weightData[weightData.length - 1].weight;
+            const firstWeight = weightData[0].weight;
+            const change = currentWeight - firstWeight;
+            const average = weightData.reduce((sum, entry) => sum + entry.weight, 0) / weightData.length;
+            
+            document.getElementById('currentWeight').textContent = `${currentWeight} lbs`;
+            document.getElementById('weightChange').textContent = `${change > 0 ? '+' : ''}${change.toFixed(1)} lbs`;
+            document.getElementById('averageWeight').textContent = `${average.toFixed(1)} lbs`;
+        }
+
+        function setChartPeriod(period) {
+            currentChartPeriod = period;
+            
+            // Update button states
+            document.querySelectorAll('.chart-period-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderWeightChart();
+        }
+
+        function renderWeightChart() {
+            const weightData = JSON.parse(localStorage.getItem('weightData') || '[]');
+            
+            if (weightData.length === 0) {
+                document.getElementById('weightChart').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('weightChart').style.display = 'block';
+            
+            // Filter data based on period
+            const now = new Date();
+            let filteredData = weightData;
+            
+            switch (currentChartPeriod) {
+                case 'month':
+                    const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+                    filteredData = weightData.filter(entry => new Date(entry.date) >= monthAgo);
+                    break;
+                case '6months':
+                    const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
+                    filteredData = weightData.filter(entry => new Date(entry.date) >= sixMonthsAgo);
+                    break;
+                case 'year':
+                    const yearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+                    filteredData = weightData.filter(entry => new Date(entry.date) >= yearAgo);
+                    break;
+                case 'all':
+                    // Use all data
+                    break;
+            }
+            
+            // Simple chart rendering
+            const canvas = document.getElementById('weightChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (filteredData.length < 2) {
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Need at least 2 entries to show chart', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+            
+            // Draw chart
+            const padding = 40;
+            const chartWidth = canvas.width - 2 * padding;
+            const chartHeight = canvas.height - 2 * padding;
+            
+            const weights = filteredData.map(entry => entry.weight);
+            const minWeight = Math.min(...weights);
+            const maxWeight = Math.max(...weights);
+            const weightRange = maxWeight - minWeight || 1;
+            
+            // Draw grid
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = padding + (i * chartHeight / 4);
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(canvas.width - padding, y);
+                ctx.stroke();
+            }
+            
+            // Draw line
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            filteredData.forEach((entry, index) => {
+                const x = padding + (index * chartWidth / (filteredData.length - 1));
+                const y = padding + chartHeight - ((entry.weight - minWeight) / weightRange * chartHeight);
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            ctx.stroke();
+            
+            // Draw points
+            ctx.fillStyle = '#10b981';
+            filteredData.forEach((entry, index) => {
+                const x = padding + (index * chartWidth / (filteredData.length - 1));
+                const y = padding + chartHeight - ((entry.weight - minWeight) / weightRange * chartHeight);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        function loadWeightHistory() {
+            const weightData = JSON.parse(localStorage.getItem('weightData') || '[]');
+            const historyContainer = document.getElementById('weightHistory');
+            
+            if (weightData.length === 0) {
+                historyContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">No weight entries yet</p>';
+                return;
+            }
+            
+            // Sort by date (newest first)
+            weightData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            const historyHTML = weightData.slice(0, 10).map(entry => {
+                const date = new Date(entry.date);
+                const formattedDate = date.toLocaleDateString();
+                
+                return `
+                    <div class="weight-entry">
+                        <div class="weight-entry-date">${formattedDate}</div>
+                        <div class="weight-entry-value">${entry.weight} lbs</div>
+                    </div>
+                `;
+            }).join('');
+            
+            historyContainer.innerHTML = historyHTML;
+        }
+
+        // Exercise Library Functions
+        const exerciseDatabase = {
+            chest: [
+                { name: 'Bench Press', target: 'Upper chest, anterior deltoids' },
+                { name: 'Incline Bench Press', target: 'Upper chest' },
+                { name: 'Decline Bench Press', target: 'Lower chest' },
+                { name: 'Dumbbell Flyes', target: 'Chest isolation' },
+                { name: 'Push-ups', target: 'Chest, triceps, shoulders' },
+                { name: 'Cable Flyes', target: 'Chest isolation' },
+                { name: 'Dips', target: 'Lower chest, triceps' }
+            ],
+            back: [
+                { name: 'Pull-ups', target: 'Upper back, lats' },
+                { name: 'Deadlift', target: 'Entire back, hamstrings' },
+                { name: 'Barbell Rows', target: 'Middle back, lats' },
+                { name: 'Lat Pulldowns', target: 'Lats, upper back' },
+                { name: 'T-Bar Rows', target: 'Middle back' },
+                { name: 'Face Pulls', target: 'Rear deltoids, upper back' },
+                { name: 'Seated Cable Rows', target: 'Middle back, lats' }
+            ],
+            shoulders: [
+                { name: 'Overhead Press', target: 'Anterior deltoids' },
+                { name: 'Lateral Raises', target: 'Lateral deltoids' },
+                { name: 'Rear Delt Flyes', target: 'Posterior deltoids' },
+                { name: 'Arnold Press', target: 'All deltoid heads' },
+                { name: 'Upright Rows', target: 'Lateral deltoids, traps' },
+                { name: 'Shrugs', target: 'Trapezius' }
+            ],
+            biceps: [
+                { name: 'Barbell Curls', target: 'Biceps brachii' },
+                { name: 'Dumbbell Curls', target: 'Biceps brachii' },
+                { name: 'Hammer Curls', target: 'Brachialis, forearms' },
+                { name: 'Preacher Curls', target: 'Lower biceps' },
+                { name: 'Concentration Curls', target: 'Biceps isolation' },
+                { name: 'Cable Curls', target: 'Biceps brachii' }
+            ],
+            triceps: [
+                { name: 'Tricep Dips', target: 'All tricep heads' },
+                { name: 'Skull Crushers', target: 'Long head triceps' },
+                { name: 'Tricep Pushdowns', target: 'Lateral head triceps' },
+                { name: 'Overhead Extensions', target: 'Long head triceps' },
+                { name: 'Diamond Push-ups', target: 'All tricep heads' },
+                { name: 'Rope Extensions', target: 'All tricep heads' }
+            ],
+            forearms: [
+                { name: 'Wrist Curls', target: 'Flexor muscles' },
+                { name: 'Reverse Wrist Curls', target: 'Extensor muscles' },
+                { name: 'Farmer\'s Walks', target: 'Grip strength' },
+                { name: 'Plate Pinches', target: 'Grip strength' }
+            ],
+            abs: [
+                { name: 'Crunches', target: 'Rectus abdominis' },
+                { name: 'Planks', target: 'Core stability' },
+                { name: 'Russian Twists', target: 'Obliques' },
+                { name: 'Leg Raises', target: 'Lower abs' },
+                { name: 'Mountain Climbers', target: 'Core, cardio' },
+                { name: 'Ab Wheel Rollouts', target: 'Full core' }
+            ],
+            legs: [
+                { name: 'Squats', target: 'Quadriceps, glutes' },
+                { name: 'Deadlifts', target: 'Hamstrings, glutes, back' },
+                { name: 'Leg Press', target: 'Quadriceps' },
+                { name: 'Lunges', target: 'Quadriceps, glutes' },
+                { name: 'Leg Extensions', target: 'Quadriceps isolation' },
+                { name: 'Leg Curls', target: 'Hamstrings isolation' },
+                { name: 'Romanian Deadlifts', target: 'Hamstrings, glutes' }
+            ],
+            glutes: [
+                { name: 'Hip Thrusts', target: 'Gluteus maximus' },
+                { name: 'Glute Bridges', target: 'Gluteus maximus' },
+                { name: 'Donkey Kicks', target: 'Gluteus maximus' },
+                { name: 'Fire Hydrants', target: 'Gluteus medius' },
+                { name: 'Clamshells', target: 'Gluteus medius' }
+            ],
+            calves: [
+                { name: 'Standing Calf Raises', target: 'Gastrocnemius' },
+                { name: 'Seated Calf Raises', target: 'Soleus' },
+                { name: 'Donkey Calf Raises', target: 'Gastrocnemius' }
+            ]
+        };
+
+        function loadMuscleGroupExercises() {
+            const muscleGroup = document.getElementById('muscleGroupSelect').value;
+            const libraryContainer = document.getElementById('exerciseLibrary');
+            
+            if (!muscleGroup) {
+                libraryContainer.innerHTML = `
+                    <div class="library-intro">
+                        <h3>Exercise Recommendations</h3>
+                        <p>Select a muscle group to see recommended exercises and their target areas.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const exercises = exerciseDatabase[muscleGroup];
+            if (!exercises) {
+                libraryContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">No exercises found for this muscle group.</p>';
+                return;
+            }
+            
+            const exercisesHTML = exercises.map(exercise => `
+                <div class="exercise-item">
+                    <div class="exercise-name">${exercise.name}</div>
+                    <div class="exercise-target">Targets: ${exercise.target}</div>
+                </div>
+            `).join('');
+            
+            libraryContainer.innerHTML = `
+                <div class="exercise-category">
+                    <h4>${muscleGroup.charAt(0).toUpperCase() + muscleGroup.slice(1)} Exercises</h4>
+                    <div class="exercise-list">
+                        ${exercisesHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadMuscleSummary() {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            const muscleGroups = Object.keys(exerciseDatabase);
+            const summaryContainer = document.getElementById('muscleSummary');
+            
+            const muscleStatus = {};
+            muscleGroups.forEach(muscle => {
+                muscleStatus[muscle] = { lastWorkout: null, status: 'none' };
+            });
+            
+            // Check last workout for each muscle group
+            history.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    const exerciseName = exercise.name.toLowerCase();
+                    muscleGroups.forEach(muscle => {
+                        if (exerciseDatabase[muscle].some(ex => ex.name.toLowerCase().includes(exerciseName) || exerciseName.includes(ex.name.toLowerCase()))) {
+                            const workoutDate = new Date(workout.date);
+                            if (!muscleStatus[muscle].lastWorkout || workoutDate > muscleStatus[muscle].lastWorkout) {
+                                muscleStatus[muscle].lastWorkout = workoutDate;
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // Determine status for each muscle group
+            const now = new Date();
+            const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            
+            Object.keys(muscleStatus).forEach(muscle => {
+                const lastWorkout = muscleStatus[muscle].lastWorkout;
+                if (!lastWorkout) {
+                    muscleStatus[muscle].status = 'none';
+                } else if (lastWorkout > oneWeekAgo) {
+                    muscleStatus[muscle].status = 'recent';
+                } else if (lastWorkout > oneMonthAgo) {
+                    muscleStatus[muscle].status = 'old';
+                } else {
+                    muscleStatus[muscle].status = 'none';
+                }
+            });
+            
+            const summaryHTML = Object.keys(muscleStatus).map(muscle => {
+                const status = muscleStatus[muscle].status;
+                const statusText = status === 'recent' ? 'Recent' : status === 'old' ? 'Old' : 'None';
+                
+                return `
+                    <div class="muscle-summary-item">
+                        <div class="muscle-summary-name">${muscle.charAt(0).toUpperCase() + muscle.slice(1)}</div>
+                        <div class="muscle-summary-status ${status}">${statusText}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            summaryContainer.innerHTML = summaryHTML;
+        }
+
+        // Theme Functions
+        function setTheme(theme) {
+            // Update button states
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Store theme preference
+            localStorage.setItem('appTheme', theme);
+            
+            // Apply theme (basic implementation - you can enhance this)
+            if (theme === 'light') {
+                document.body.style.background = 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)';
+                document.body.style.color = '#1e293b';
+            } else {
+                document.body.style.background = 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)';
+                document.body.style.color = '#e2e8f0';
+            }
+        }
+
+        function setColorScheme(scheme) {
+            // Update button states
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Store color preference
+            localStorage.setItem('appColorScheme', scheme);
+            
+            // Apply color scheme (basic implementation - you can enhance this)
+            const colors = {
+                green: '#10b981',
+                orange: '#f59e0b',
+                purple: '#8b5cf6',
+                blue: '#3b82f6',
+                red: '#ef4444'
+            };
+            
+            const primaryColor = colors[scheme];
+            // You can add more sophisticated color application here
+            console.log(`Color scheme changed to: ${scheme} (${primaryColor})`);
         }
 
         // Initialize the app
