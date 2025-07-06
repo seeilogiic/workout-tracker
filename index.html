@@ -42,7 +42,7 @@
             display: block;
             height: 4px;
             width: 100%;
-            background: #10b981;
+            background: #94a3b8;
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -470,6 +470,84 @@
             margin-top: 20px;
         }
 
+        .muscle-summary-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border-radius: 12px;
+            border: 1px solid #475569;
+        }
+
+        .muscle-summary-section h4 {
+            color: #10b981;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .day-muscle-summary {
+            font-size: 12px;
+        }
+
+        .worked-muscles h5,
+        .muscle-recommendations h5 {
+            color: #10b981;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .muscle-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .muscle-tag {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .muscle-tag.worked {
+            background: #10b981;
+            color: #ffffff;
+        }
+
+        .recommendation-group {
+            margin-bottom: 8px;
+        }
+
+        .recommendation-muscle {
+            color: #f59e0b;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .recommendation-exercises {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .exercise-recommendation {
+            background: #475569;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+        }
+
+        .no-muscle-data {
+            color: #94a3b8;
+            font-size: 11px;
+            text-align: center;
+            font-style: italic;
+        }
+
         .add-note-day-btn {
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
@@ -754,7 +832,7 @@
         }
 
         .exercise-name {
-            color: #e2e8f0;
+            color: #10b981;
             font-weight: 600;
             margin-bottom: 5px;
         }
@@ -2524,25 +2602,25 @@
                     <span class="nav-icon">🏠</span>
                     <span class="nav-text">Home</span>
                 </a>
-                <a href="#" class="nav-item" onclick="showSection('dashboard')">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-text">Dashboard</span>
-                </a>
                 <a href="#" class="nav-item" onclick="showSection('calendar')">
                     <span class="nav-icon">📅</span>
                     <span class="nav-text">Calendar</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('dashboard')">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Exercise Statistics</span>
                 </a>
                 <a href="#" class="nav-item" onclick="showSection('weight')">
                     <span class="nav-icon">⚖️</span>
                     <span class="nav-text">Body Weight</span>
                 </a>
-                <a href="#" class="nav-item" onclick="showSection('settings')">
-                    <span class="nav-icon">⚙️</span>
-                    <span class="nav-text">Settings</span>
-                </a>
                 <a href="#" class="nav-item" onclick="showSection('library')">
                     <span class="nav-icon">📚</span>
                     <span class="nav-text">Exercise Library</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('settings')">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Settings</span>
                 </a>
             </nav>
         </div>
@@ -2835,11 +2913,6 @@
                         <h3>Exercise Recommendations</h3>
                         <p>Select a muscle group to see recommended exercises and their target areas.</p>
                     </div>
-                </div>
-
-                <div class="workout-summary">
-                    <h3>Muscle Group Summary</h3>
-                    <div id="muscleSummary" class="muscle-summary-grid"></div>
                 </div>
             </div>
 
@@ -3176,6 +3249,10 @@
             }
             
             detailsHTML += `
+                        <div class="muscle-summary-section">
+                            <h4>Muscle Group Summary</h4>
+                            <div id="dayMuscleSummary" class="muscle-summary-grid"></div>
+                        </div>
                         <div class="day-actions">
                             <button class="add-note-day-btn" onclick="addNoteForDay(${year}, ${month}, ${day})">Add Note</button>
                         </div>
@@ -3194,6 +3271,9 @@
             };
             
             document.body.appendChild(modalOverlay);
+            
+            // Load muscle summary for this day
+            loadDayMuscleSummary(year, month, day);
         }
 
         function closeDayDetails() {
@@ -3433,81 +3513,81 @@
         // Exercise Library Functions
         const exerciseDatabase = {
             chest: [
-                { name: 'Bench Press', target: 'Upper chest, anterior deltoids' },
-                { name: 'Incline Bench Press', target: 'Upper chest' },
-                { name: 'Decline Bench Press', target: 'Lower chest' },
-                { name: 'Dumbbell Flyes', target: 'Chest isolation' },
-                { name: 'Push-ups', target: 'Chest, triceps, shoulders' },
-                { name: 'Cable Flyes', target: 'Chest isolation' },
-                { name: 'Dips', target: 'Lower chest, triceps' }
+                { name: 'Bench Press', target: 'Upper chest, anterior deltoids', areas: ['upper_chest', 'anterior_deltoids'] },
+                { name: 'Incline Bench Press', target: 'Upper chest', areas: ['upper_chest'] },
+                { name: 'Decline Bench Press', target: 'Lower chest', areas: ['lower_chest'] },
+                { name: 'Dumbbell Flyes', target: 'Chest isolation', areas: ['chest_isolation'] },
+                { name: 'Push-ups', target: 'Chest, triceps, shoulders', areas: ['chest', 'triceps', 'shoulders'] },
+                { name: 'Cable Flyes', target: 'Chest isolation', areas: ['chest_isolation'] },
+                { name: 'Dips', target: 'Lower chest, triceps', areas: ['lower_chest', 'triceps'] }
             ],
             back: [
-                { name: 'Pull-ups', target: 'Upper back, lats' },
-                { name: 'Deadlift', target: 'Entire back, hamstrings' },
-                { name: 'Barbell Rows', target: 'Middle back, lats' },
-                { name: 'Lat Pulldowns', target: 'Lats, upper back' },
-                { name: 'T-Bar Rows', target: 'Middle back' },
-                { name: 'Face Pulls', target: 'Rear deltoids, upper back' },
-                { name: 'Seated Cable Rows', target: 'Middle back, lats' }
+                { name: 'Pull-ups', target: 'Upper back, lats', areas: ['upper_back', 'lats'] },
+                { name: 'Deadlift', target: 'Entire back, hamstrings', areas: ['entire_back', 'hamstrings'] },
+                { name: 'Barbell Rows', target: 'Middle back, lats', areas: ['middle_back', 'lats'] },
+                { name: 'Lat Pulldowns', target: 'Lats, upper back', areas: ['lats', 'upper_back'] },
+                { name: 'T-Bar Rows', target: 'Middle back', areas: ['middle_back'] },
+                { name: 'Face Pulls', target: 'Rear deltoids, upper back', areas: ['rear_deltoids', 'upper_back'] },
+                { name: 'Seated Cable Rows', target: 'Middle back, lats', areas: ['middle_back', 'lats'] }
             ],
             shoulders: [
-                { name: 'Overhead Press', target: 'Anterior deltoids' },
-                { name: 'Lateral Raises', target: 'Lateral deltoids' },
-                { name: 'Rear Delt Flyes', target: 'Posterior deltoids' },
-                { name: 'Arnold Press', target: 'All deltoid heads' },
-                { name: 'Upright Rows', target: 'Lateral deltoids, traps' },
-                { name: 'Shrugs', target: 'Trapezius' }
+                { name: 'Overhead Press', target: 'Anterior deltoids', areas: ['anterior_deltoids'] },
+                { name: 'Lateral Raises', target: 'Lateral deltoids', areas: ['lateral_deltoids'] },
+                { name: 'Rear Delt Flyes', target: 'Posterior deltoids', areas: ['posterior_deltoids'] },
+                { name: 'Arnold Press', target: 'All deltoid heads', areas: ['anterior_deltoids', 'lateral_deltoids', 'posterior_deltoids'] },
+                { name: 'Upright Rows', target: 'Lateral deltoids, traps', areas: ['lateral_deltoids', 'traps'] },
+                { name: 'Shrugs', target: 'Trapezius', areas: ['traps'] }
             ],
             biceps: [
-                { name: 'Barbell Curls', target: 'Biceps brachii' },
-                { name: 'Dumbbell Curls', target: 'Biceps brachii' },
-                { name: 'Hammer Curls', target: 'Brachialis, forearms' },
-                { name: 'Preacher Curls', target: 'Lower biceps' },
-                { name: 'Concentration Curls', target: 'Biceps isolation' },
-                { name: 'Cable Curls', target: 'Biceps brachii' }
+                { name: 'Barbell Curls', target: 'Biceps brachii', areas: ['biceps_brachii'] },
+                { name: 'Dumbbell Curls', target: 'Biceps brachii', areas: ['biceps_brachii'] },
+                { name: 'Hammer Curls', target: 'Brachialis, forearms', areas: ['brachialis', 'forearms'] },
+                { name: 'Preacher Curls', target: 'Lower biceps', areas: ['lower_biceps'] },
+                { name: 'Concentration Curls', target: 'Biceps isolation', areas: ['biceps_isolation'] },
+                { name: 'Cable Curls', target: 'Biceps brachii', areas: ['biceps_brachii'] }
             ],
             triceps: [
-                { name: 'Tricep Dips', target: 'All tricep heads' },
-                { name: 'Skull Crushers', target: 'Long head triceps' },
-                { name: 'Tricep Pushdowns', target: 'Lateral head triceps' },
-                { name: 'Overhead Extensions', target: 'Long head triceps' },
-                { name: 'Diamond Push-ups', target: 'All tricep heads' },
-                { name: 'Rope Extensions', target: 'All tricep heads' }
+                { name: 'Tricep Dips', target: 'All tricep heads', areas: ['long_head_triceps', 'lateral_head_triceps', 'medial_head_triceps'] },
+                { name: 'Skull Crushers', target: 'Long head triceps', areas: ['long_head_triceps'] },
+                { name: 'Tricep Pushdowns', target: 'Lateral head triceps', areas: ['lateral_head_triceps'] },
+                { name: 'Overhead Extensions', target: 'Long head triceps', areas: ['long_head_triceps'] },
+                { name: 'Diamond Push-ups', target: 'All tricep heads', areas: ['long_head_triceps', 'lateral_head_triceps', 'medial_head_triceps'] },
+                { name: 'Rope Extensions', target: 'All tricep heads', areas: ['long_head_triceps', 'lateral_head_triceps', 'medial_head_triceps'] }
             ],
             forearms: [
-                { name: 'Wrist Curls', target: 'Flexor muscles' },
-                { name: 'Reverse Wrist Curls', target: 'Extensor muscles' },
-                { name: 'Farmer\'s Walks', target: 'Grip strength' },
-                { name: 'Plate Pinches', target: 'Grip strength' }
+                { name: 'Wrist Curls', target: 'Flexor muscles', areas: ['flexor_muscles'] },
+                { name: 'Reverse Wrist Curls', target: 'Extensor muscles', areas: ['extensor_muscles'] },
+                { name: 'Farmer\'s Walks', target: 'Grip strength', areas: ['grip_strength'] },
+                { name: 'Plate Pinches', target: 'Grip strength', areas: ['grip_strength'] }
             ],
             abs: [
-                { name: 'Crunches', target: 'Rectus abdominis' },
-                { name: 'Planks', target: 'Core stability' },
-                { name: 'Russian Twists', target: 'Obliques' },
-                { name: 'Leg Raises', target: 'Lower abs' },
-                { name: 'Mountain Climbers', target: 'Core, cardio' },
-                { name: 'Ab Wheel Rollouts', target: 'Full core' }
+                { name: 'Crunches', target: 'Rectus abdominis', areas: ['rectus_abdominis'] },
+                { name: 'Planks', target: 'Core stability', areas: ['core_stability'] },
+                { name: 'Russian Twists', target: 'Obliques', areas: ['obliques'] },
+                { name: 'Leg Raises', target: 'Lower abs', areas: ['lower_abs'] },
+                { name: 'Mountain Climbers', target: 'Core, cardio', areas: ['core', 'cardio'] },
+                { name: 'Ab Wheel Rollouts', target: 'Full core', areas: ['full_core'] }
             ],
             legs: [
-                { name: 'Squats', target: 'Quadriceps, glutes' },
-                { name: 'Deadlifts', target: 'Hamstrings, glutes, back' },
-                { name: 'Leg Press', target: 'Quadriceps' },
-                { name: 'Lunges', target: 'Quadriceps, glutes' },
-                { name: 'Leg Extensions', target: 'Quadriceps isolation' },
-                { name: 'Leg Curls', target: 'Hamstrings isolation' },
-                { name: 'Romanian Deadlifts', target: 'Hamstrings, glutes' }
+                { name: 'Squats', target: 'Quadriceps, glutes', areas: ['quadriceps', 'glutes'] },
+                { name: 'Deadlifts', target: 'Hamstrings, glutes, back', areas: ['hamstrings', 'glutes', 'back'] },
+                { name: 'Leg Press', target: 'Quadriceps', areas: ['quadriceps'] },
+                { name: 'Lunges', target: 'Quadriceps, glutes', areas: ['quadriceps', 'glutes'] },
+                { name: 'Leg Extensions', target: 'Quadriceps isolation', areas: ['quadriceps_isolation'] },
+                { name: 'Leg Curls', target: 'Hamstrings isolation', areas: ['hamstrings_isolation'] },
+                { name: 'Romanian Deadlifts', target: 'Hamstrings, glutes', areas: ['hamstrings', 'glutes'] }
             ],
             glutes: [
-                { name: 'Hip Thrusts', target: 'Gluteus maximus' },
-                { name: 'Glute Bridges', target: 'Gluteus maximus' },
-                { name: 'Donkey Kicks', target: 'Gluteus maximus' },
-                { name: 'Fire Hydrants', target: 'Gluteus medius' },
-                { name: 'Clamshells', target: 'Gluteus medius' }
+                { name: 'Hip Thrusts', target: 'Gluteus maximus', areas: ['gluteus_maximus'] },
+                { name: 'Glute Bridges', target: 'Gluteus maximus', areas: ['gluteus_maximus'] },
+                { name: 'Donkey Kicks', target: 'Gluteus maximus', areas: ['gluteus_maximus'] },
+                { name: 'Fire Hydrants', target: 'Gluteus medius', areas: ['gluteus_medius'] },
+                { name: 'Clamshells', target: 'Gluteus medius', areas: ['gluteus_medius'] }
             ],
             calves: [
-                { name: 'Standing Calf Raises', target: 'Gastrocnemius' },
-                { name: 'Seated Calf Raises', target: 'Soleus' },
-                { name: 'Donkey Calf Raises', target: 'Gastrocnemius' }
+                { name: 'Standing Calf Raises', target: 'Gastrocnemius', areas: ['gastrocnemius'] },
+                { name: 'Seated Calf Raises', target: 'Soleus', areas: ['soleus'] },
+                { name: 'Donkey Calf Raises', target: 'Gastrocnemius', areas: ['gastrocnemius'] }
             ]
         };
 
@@ -3603,6 +3683,126 @@
                 `;
             }).join('');
             
+            summaryContainer.innerHTML = summaryHTML;
+        }
+
+        function loadDayMuscleSummary(year, month, day) {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            const targetDate = new Date(year, month - 1, day);
+            const summaryContainer = document.getElementById('dayMuscleSummary');
+            
+            if (!summaryContainer) return;
+            
+            // Get workouts for this specific day
+            const dayWorkouts = history.filter(workout => {
+                const workoutDate = new Date(workout.date);
+                return workoutDate.getFullYear() === year && 
+                       workoutDate.getMonth() === month - 1 && 
+                       workoutDate.getDate() === day;
+            });
+            
+            if (dayWorkouts.length === 0) {
+                summaryContainer.innerHTML = '<p class="no-muscle-data">No workout data for this day</p>';
+                return;
+            }
+            
+            // Track muscle areas worked on this day
+            const workedAreas = new Set();
+            const workedMuscles = new Set();
+            
+            dayWorkouts.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    const exerciseName = exercise.name || '';
+                    const normalizedName = normalizeExerciseName(exerciseName);
+                    
+                    // Find which muscle group and areas this exercise targets
+                    for (const [muscleGroup, exercises] of Object.entries(exerciseDatabase)) {
+                        const found = exercises.find(ex => 
+                            normalizeExerciseName(ex.name) === normalizedName
+                        );
+                        if (found) {
+                            workedMuscles.add(muscleGroup);
+                            if (found.areas) {
+                                found.areas.forEach(area => workedAreas.add(area));
+                            }
+                            break;
+                        }
+                    }
+                });
+            });
+            
+            // Define muscle group areas for recommendations
+            const muscleGroupAreas = {
+                chest: ['upper_chest', 'lower_chest', 'chest_isolation'],
+                back: ['upper_back', 'middle_back', 'lats', 'entire_back'],
+                shoulders: ['anterior_deltoids', 'lateral_deltoids', 'posterior_deltoids', 'traps'],
+                biceps: ['biceps_brachii', 'brachialis', 'lower_biceps', 'biceps_isolation'],
+                triceps: ['long_head_triceps', 'lateral_head_triceps', 'medial_head_triceps'],
+                legs: ['quadriceps', 'quadriceps_isolation', 'hamstrings', 'hamstrings_isolation'],
+                glutes: ['gluteus_maximus', 'gluteus_medius'],
+                calves: ['gastrocnemius', 'soleus'],
+                abs: ['rectus_abdominis', 'lower_abs', 'obliques', 'core_stability', 'full_core'],
+                forearms: ['flexor_muscles', 'extensor_muscles', 'grip_strength']
+            };
+            
+            // Generate summary and recommendations
+            let summaryHTML = '<div class="day-muscle-summary">';
+            
+            // Show worked muscles
+            if (workedMuscles.size > 0) {
+                summaryHTML += '<div class="worked-muscles">';
+                summaryHTML += '<h5>Muscles Worked:</h5>';
+                summaryHTML += '<div class="muscle-tags">';
+                Array.from(workedMuscles).forEach(muscle => {
+                    summaryHTML += `<span class="muscle-tag worked">${muscle.charAt(0).toUpperCase() + muscle.slice(1)}</span>`;
+                });
+                summaryHTML += '</div></div>';
+            }
+            
+            // Check for missing areas and provide recommendations
+            const missingAreas = [];
+            const recommendations = [];
+            
+            Object.entries(muscleGroupAreas).forEach(([muscleGroup, areas]) => {
+                if (workedMuscles.has(muscleGroup)) {
+                    const missingInGroup = areas.filter(area => !workedAreas.has(area));
+                    if (missingInGroup.length > 0) {
+                        missingAreas.push(`${muscleGroup}: ${missingInGroup.join(', ')}`);
+                        
+                        // Find exercises that target missing areas
+                        const groupExercises = exerciseDatabase[muscleGroup] || [];
+                        const recommendedExercises = groupExercises.filter(exercise => 
+                            exercise.areas && exercise.areas.some(area => missingInGroup.includes(area))
+                        );
+                        
+                        if (recommendedExercises.length > 0) {
+                            recommendations.push({
+                                muscleGroup,
+                                missingAreas: missingInGroup,
+                                exercises: recommendedExercises.slice(0, 2) // Limit to 2 recommendations
+                            });
+                        }
+                    }
+                }
+            });
+            
+            // Show recommendations if any
+            if (recommendations.length > 0) {
+                summaryHTML += '<div class="muscle-recommendations">';
+                summaryHTML += '<h5>Consider Adding:</h5>';
+                recommendations.forEach(rec => {
+                    summaryHTML += `<div class="recommendation-group">`;
+                    summaryHTML += `<div class="recommendation-muscle">${rec.muscleGroup.charAt(0).toUpperCase() + rec.muscleGroup.slice(1)}</div>`;
+                    summaryHTML += `<div class="recommendation-exercises">`;
+                    rec.exercises.forEach(exercise => {
+                        summaryHTML += `<span class="exercise-recommendation">${exercise.name}</span>`;
+                    });
+                    summaryHTML += `</div></div>`;
+                });
+                summaryHTML += '</div>';
+            }
+            
+            summaryHTML += '</div>';
             summaryContainer.innerHTML = summaryHTML;
         }
 
