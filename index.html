@@ -582,19 +582,7 @@
             left: 100%;
         }
 
-        /* Workout Setup Styles */
-        .workout-setup {
-            margin-bottom: 30px;
-        }
 
-        .workout-details {
-            background: linear-gradient(135deg, #334155 0%, #475569 100%);
-            border: 1px solid #475569;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
 
         .exercise-input {
             background: linear-gradient(135deg, #334155 0%, #475569 100%);
@@ -1052,27 +1040,12 @@
 
             <!-- Workout Tracking Section -->
             <div id="workoutTracking" class="workout-tracking">
-                <!-- Workout Setup -->
-                <div id="workoutSetup" class="workout-setup">
-                    <div class="workout-header">
-                        <h2 id="currentWorkoutType">Workout</h2>
-                        <p id="workoutDate"></p>
-                    </div>
-
-                    <div class="workout-details">
-                        <div class="input-group full-width">
-                            <label>Workout Name</label>
-                            <input type="text" id="workoutName" placeholder="e.g., Upper Body Strength" onchange="updateWorkoutName(this.value)">
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label>Notes</label>
-                            <textarea id="workoutNotes" placeholder="Any notes about this workout?" rows="3" onchange="updateWorkoutNotes(this.value)"></textarea>
-                        </div>
-                    </div>
-
-                    <button class="add-exercise-btn" onclick="addExercise()">➕ Add Exercise</button>
+                <div class="workout-header">
+                    <h2 id="currentWorkoutType">Workout</h2>
+                    <p id="workoutDate"></p>
                 </div>
+
+                <button class="add-exercise-btn" onclick="addExercise()">➕ Add Exercise</button>
 
                 <!-- Exercise Input -->
                 <div id="exerciseInput" class="exercise-input" style="display: none;">
@@ -1203,10 +1176,6 @@
             document.getElementById('currentWorkoutType').textContent = workoutType.charAt(0).toUpperCase() + workoutType.slice(1) + ' Workout';
             document.getElementById('workoutDate').textContent = new Date().toLocaleDateString() + ' at ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            // Clear workout details
-            document.getElementById('workoutName').value = '';
-            document.getElementById('workoutNotes').value = '';
-            
             // Hide exercise input and update exercise list
             document.getElementById('exerciseInput').style.display = 'none';
             updateExerciseList();
@@ -1301,6 +1270,9 @@
             document.getElementById('exerciseWeightInput').value = '';
             document.getElementById('exerciseCommentsInput').value = '';
             
+            // Focus on exercise name input
+            document.getElementById('exerciseNameInput').focus();
+            
             // Scroll to exercise input
             document.getElementById('exerciseInput').scrollIntoView({ behavior: 'smooth' });
         }
@@ -1335,14 +1307,21 @@
                 comments: comments
             });
 
-            // Close exercise input
-            closeExerciseInput();
-
             // Update exercise list
             updateExerciseList();
 
             // Show success feedback
             showSuccessFeedback(`${name} added to workout!`);
+
+            // Clear form and show another exercise input for the next exercise
+            document.getElementById('exerciseNameInput').value = '';
+            document.getElementById('exerciseSetsInput').value = '3';
+            document.getElementById('exerciseRepsInput').value = '10';
+            document.getElementById('exerciseWeightInput').value = '';
+            document.getElementById('exerciseCommentsInput').value = '';
+            
+            // Focus on exercise name input for the next exercise
+            document.getElementById('exerciseNameInput').focus();
         }
 
         function updateExerciseList() {
@@ -1383,17 +1362,7 @@
             showSuccessFeedback('Exercise removed from workout');
         }
 
-        function updateWorkoutName(name) {
-            if (currentWorkout) {
-                currentWorkout.name = name;
-            }
-        }
 
-        function updateWorkoutNotes(notes) {
-            if (currentWorkout) {
-                currentWorkout.notes = notes;
-            }
-        }
 
         function deleteExercise(exerciseId) {
             document.getElementById(exerciseId).remove();
