@@ -1870,6 +1870,7 @@
         // Global state
         let currentWorkout = null;
         let exerciseCounter = 0;
+        let workoutStartTime = null;
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
@@ -1916,6 +1917,9 @@
             
             document.getElementById('currentWorkoutType').textContent = workoutType.charAt(0).toUpperCase() + workoutType.slice(1) + ' Workout';
             document.getElementById('workoutDate').textContent = new Date().toLocaleDateString() + ' at ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Start workout timer
+            workoutStartTime = new Date();
             
             // Hide exercise input and update exercise list
             document.getElementById('exerciseInput').style.display = 'none';
@@ -1990,10 +1994,12 @@
                     `;
                 }).join('');
                 
+                const durationText = workout.duration ? ` • ${workout.duration} min` : '';
+                
                 return `
                     <div class="workout-history-item">
                         <div class="workout-history-header">
-                            <div class="workout-history-date">${formattedDate}</div>
+                            <div class="workout-history-date">${formattedDate}${durationText}</div>
                             <div class="workout-history-type">${workout.type}</div>
                         </div>
                         <div class="workout-history-exercises">
@@ -2756,6 +2762,22 @@
                 return;
             }
 
+            // Data validation
+            if (sets < 1 || sets > 50) {
+                alert('Please enter a valid number of sets (1-50).');
+                return;
+            }
+
+            if (reps < 1 || reps > 100) {
+                alert('Please enter a valid number of reps (1-100).');
+                return;
+            }
+
+            if (weight < 0 || weight > 2000) {
+                alert('Please enter a valid weight (0-2000 lbs).');
+                return;
+            }
+
             exerciseCounter++;
             const exerciseId = `exercise-${exerciseCounter}`;
 
@@ -2956,6 +2978,14 @@
             // Save last workout info
             localStorage.setItem(STORAGE_KEYS.LAST_WORKOUT, currentWorkout.type);
             localStorage.setItem(STORAGE_KEYS.LAST_WORKOUT_DATE, currentWorkout.date);
+
+            // Calculate workout duration
+            let duration = null;
+            if (workoutStartTime) {
+                const endTime = new Date();
+                duration = Math.round((endTime - workoutStartTime) / 1000 / 60); // Duration in minutes
+                currentWorkout.duration = duration;
+            }
 
             // Save to workout history
             const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
