@@ -1164,6 +1164,240 @@
             left: 100%;
         }
 
+        /* Sync Settings Styles */
+        .sync-section {
+            display: none;
+        }
+
+        .sync-section.active {
+            display: block;
+        }
+
+        .sync-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sync-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        .sync-header h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sync-header p {
+            opacity: 0.9;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sync-status {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sync-status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sync-status-text {
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+
+        .sync-setup {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sync-setup h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sync-setup p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .setup-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .setup-step {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: #10b981;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: #e2e8f0;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .step-content p {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .step-content a {
+            color: #10b981;
+            text-decoration: none;
+        }
+
+        .step-content a:hover {
+            text-decoration: underline;
+        }
+
+        .token-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .token-input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .test-token-btn, .sync-data-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .test-token-btn:hover, .sync-data-btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+        }
+
+        .sync-info {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sync-info h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sync-info ul {
+            color: #94a3b8;
+            font-size: 14px;
+            padding-left: 20px;
+        }
+
+        .sync-info li {
+            margin-bottom: 8px;
+        }
+
+        .sync-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .sync-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .sync-btn:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .sync-btn:hover::before {
+            left: 100%;
+        }
+
         .history-header {
             background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%);
             color: white;
@@ -1407,6 +1641,7 @@
 
                 <button class="history-btn" onclick="showHistory()">View Workout History</button>
                 <button class="stats-btn" onclick="showStats()">Exercise Statistics</button>
+                <button class="sync-btn" onclick="showSyncSettings()">Sync Settings</button>
                 <button class="clear-btn" onclick="clearData()">Clear All Data</button>
             </div>
 
@@ -1550,6 +1785,66 @@
 
                 <button class="back-btn" onclick="backToSelection()">← Back to Workout Types</button>
             </div>
+
+            <!-- Sync Settings Section -->
+            <div id="syncSection" class="sync-section">
+                <div class="sync-header">
+                    <h2>Sync Settings</h2>
+                    <p>Sync your workout data across devices using GitHub</p>
+                </div>
+
+                <div class="sync-status">
+                    <div id="syncStatus" class="sync-status-indicator">
+                        <span class="sync-status-text">Checking sync status...</span>
+                    </div>
+                </div>
+
+                <div class="sync-setup">
+                    <h3>GitHub Setup</h3>
+                    <p>To sync across devices, you'll need a GitHub Personal Access Token:</p>
+                    
+                    <div class="setup-steps">
+                        <div class="setup-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Create GitHub Token</h4>
+                                <p>Go to <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Developer Settings → Personal Access Tokens</a></p>
+                                <p>Click "Generate new token (classic)" and select "gist" permissions</p>
+                            </div>
+                        </div>
+                        
+                        <div class="setup-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Enter Token</h4>
+                                <input type="password" id="githubTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="token-input">
+                                <button class="test-token-btn" onclick="testGitHubToken()">Test Token</button>
+                            </div>
+                        </div>
+                        
+                        <div class="setup-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Sync Data</h4>
+                                <button class="sync-data-btn" onclick="syncToGitHub()">Upload to GitHub</button>
+                                <button class="sync-data-btn" onclick="syncFromGitHub()">Download from GitHub</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sync-info">
+                    <h3>How It Works</h3>
+                    <ul>
+                        <li>Your workout data is stored as a private GitHub Gist</li>
+                        <li>Data syncs automatically when you save workouts</li>
+                        <li>Access your data from any device with the same token</li>
+                        <li>Your data remains private and secure</li>
+                    </ul>
+                </div>
+
+                <button class="back-btn" onclick="backToSelection()">← Back to Workout Types</button>
+            </div>
         </div>
     </div>
 
@@ -1561,7 +1856,15 @@
             LAST_WORKOUT: 'lastWorkout',
             LAST_WORKOUT_DATE: 'lastWorkoutDate',
             WORKOUT_HISTORY: 'workoutHistory',
-            CURRENT_WORKOUT: 'currentWorkout'
+            CURRENT_WORKOUT: 'currentWorkout',
+            GITHUB_TOKEN: 'githubToken',
+            GIST_ID: 'gistId'
+        };
+
+        // GitHub API configuration
+        const GITHUB_CONFIG = {
+            GIST_FILENAME: 'workout-data.json',
+            API_BASE: 'https://api.github.com'
         };
 
         // Global state
@@ -1633,8 +1936,19 @@
             document.getElementById('workoutTracking').classList.remove('active');
             document.getElementById('historySection').classList.remove('active');
             document.getElementById('statsSection').classList.add('active');
+            document.getElementById('syncSection').classList.remove('active');
             
             loadExerciseList();
+        }
+
+        function showSyncSettings() {
+            document.getElementById('workoutSelection').style.display = 'none';
+            document.getElementById('workoutTracking').classList.remove('active');
+            document.getElementById('historySection').classList.remove('active');
+            document.getElementById('statsSection').classList.remove('active');
+            document.getElementById('syncSection').classList.add('active');
+            
+            loadSyncStatus();
         }
 
         function loadHistory() {
@@ -1999,6 +2313,187 @@
                     ${nextInfo ? `<div class="recommendation-next">${nextInfo}</div>` : ''}
                 </div>
             `;
+        }
+
+        // GitHub Sync Functions
+        function loadSyncStatus() {
+            const token = localStorage.getItem(STORAGE_KEYS.GITHUB_TOKEN);
+            const gistId = localStorage.getItem(STORAGE_KEYS.GIST_ID);
+            const statusElement = document.getElementById('syncStatus');
+            
+            if (token && gistId) {
+                statusElement.innerHTML = `
+                    <span style="color: #10b981;">✓</span>
+                    <span class="sync-status-text">GitHub sync is configured</span>
+                `;
+                document.getElementById('githubTokenInput').value = token;
+            } else if (token) {
+                statusElement.innerHTML = `
+                    <span style="color: #f59e0b;">⚠</span>
+                    <span class="sync-status-text">Token configured but no gist created yet</span>
+                `;
+                document.getElementById('githubTokenInput').value = token;
+            } else {
+                statusElement.innerHTML = `
+                    <span style="color: #ef4444;">✗</span>
+                    <span class="sync-status-text">GitHub sync not configured</span>
+                `;
+            }
+        }
+
+        async function testGitHubToken() {
+            const token = document.getElementById('githubTokenInput').value.trim();
+            if (!token) {
+                alert('Please enter a GitHub token');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${GITHUB_CONFIG.API_BASE}/user`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    localStorage.setItem(STORAGE_KEYS.GITHUB_TOKEN, token);
+                    alert(`Token is valid! Connected as ${user.login}`);
+                    loadSyncStatus();
+                } else {
+                    alert('Invalid token. Please check your GitHub Personal Access Token.');
+                }
+            } catch (error) {
+                alert('Error testing token: ' + error.message);
+            }
+        }
+
+        async function syncToGitHub() {
+            const token = localStorage.getItem(STORAGE_KEYS.GITHUB_TOKEN);
+            if (!token) {
+                alert('Please configure your GitHub token first');
+                return;
+            }
+
+            try {
+                const workoutData = {
+                    workoutHistory: JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]'),
+                    lastWorkout: localStorage.getItem(STORAGE_KEYS.LAST_WORKOUT),
+                    workoutCount: localStorage.getItem(STORAGE_KEYS.WORKOUT_COUNT),
+                    lastWorkoutDate: localStorage.getItem(STORAGE_KEYS.LAST_WORKOUT_DATE),
+                    syncDate: new Date().toISOString()
+                };
+
+                const gistId = localStorage.getItem(STORAGE_KEYS.GIST_ID);
+                const gistData = {
+                    description: 'Workout Tracker Data',
+                    public: false,
+                    files: {
+                        [GITHUB_CONFIG.GIST_FILENAME]: {
+                            content: JSON.stringify(workoutData, null, 2)
+                        }
+                    }
+                };
+
+                const url = gistId 
+                    ? `${GITHUB_CONFIG.API_BASE}/gists/${gistId}`
+                    : `${GITHUB_CONFIG.API_BASE}/gists`;
+                
+                const method = gistId ? 'PATCH' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(gistData)
+                });
+
+                if (response.ok) {
+                    const gist = await response.json();
+                    if (!gistId) {
+                        localStorage.setItem(STORAGE_KEYS.GIST_ID, gist.id);
+                    }
+                    alert('Data successfully synced to GitHub!');
+                    loadSyncStatus();
+                } else {
+                    alert('Error syncing to GitHub: ' + response.statusText);
+                }
+            } catch (error) {
+                alert('Error syncing to GitHub: ' + error.message);
+            }
+        }
+
+        async function syncFromGitHub() {
+            const token = localStorage.getItem(STORAGE_KEYS.GITHUB_TOKEN);
+            const gistId = localStorage.getItem(STORAGE_KEYS.GIST_ID);
+            
+            if (!token) {
+                alert('Please configure your GitHub token first');
+                return;
+            }
+
+            if (!gistId) {
+                alert('No gist ID found. Please upload data first.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${GITHUB_CONFIG.API_BASE}/gists/${gistId}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    const gist = await response.json();
+                    const file = gist.files[GITHUB_CONFIG.GIST_FILENAME];
+                    
+                    if (file && file.content) {
+                        const workoutData = JSON.parse(file.content);
+                        
+                        // Restore data from GitHub
+                        if (workoutData.workoutHistory) {
+                            localStorage.setItem(STORAGE_KEYS.WORKOUT_HISTORY, JSON.stringify(workoutData.workoutHistory));
+                        }
+                        if (workoutData.lastWorkout) {
+                            localStorage.setItem(STORAGE_KEYS.LAST_WORKOUT, workoutData.lastWorkout);
+                        }
+                        if (workoutData.workoutCount) {
+                            localStorage.setItem(STORAGE_KEYS.WORKOUT_COUNT, workoutData.workoutCount);
+                        }
+                        if (workoutData.lastWorkoutDate) {
+                            localStorage.setItem(STORAGE_KEYS.LAST_WORKOUT_DATE, workoutData.lastWorkoutDate);
+                        }
+                        
+                        alert('Data successfully downloaded from GitHub!');
+                        loadData(); // Refresh the UI
+                    } else {
+                        alert('No workout data found in the gist');
+                    }
+                } else {
+                    alert('Error downloading from GitHub: ' + response.statusText);
+                }
+            } catch (error) {
+                alert('Error downloading from GitHub: ' + error.message);
+            }
+        }
+
+        // Auto-sync when saving workouts
+        function autoSyncToGitHub() {
+            const token = localStorage.getItem(STORAGE_KEYS.GITHUB_TOKEN);
+            const gistId = localStorage.getItem(STORAGE_KEYS.GIST_ID);
+            
+            if (token && gistId) {
+                // Sync in background without blocking the UI
+                syncToGitHub().catch(error => {
+                    console.log('Auto-sync failed:', error);
+                });
+            }
         }
 
         // Auto-complete functionality
@@ -2469,6 +2964,9 @@
             // Show success message
             const workoutType = currentWorkout.type;
             showSuccessFeedback(`Complete ${workoutType} workout saved!`);
+
+            // Auto-sync to GitHub if configured
+            autoSyncToGitHub();
 
             // Clear current workout session
             currentWorkout = null;
