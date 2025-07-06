@@ -273,7 +273,7 @@ function renderMonthView(history, notes) {
         }
         
         calendarHTML += `
-            <div class="${dayClass}" onclick="selectDate('${date.toISOString()}')">
+            <div class="${dayClass}" onclick="selectDateFromMonth('${date.toISOString()}')">
                 <div class="month-day-number">${day}</div>
                 <div class="month-day-indicators">${indicatorsHTML}</div>
             </div>
@@ -319,6 +319,11 @@ function renderYearView(history, notes) {
     calendarHTML += '</div>';
     
     return calendarHTML;
+}
+
+function selectDateFromMonth(date) {
+    selectedDate = new Date(date);
+    changeView('week');
 }
 
 function selectMonth(month) {
