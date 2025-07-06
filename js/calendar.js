@@ -173,7 +173,7 @@ function renderWeekView(history, notes) {
                             </div>
                         ` : ''}
                         ${dayWorkouts.length > 0 ? `
-                            <div class="day-workout-bubble">
+                            <div class="day-workout-bubble" onclick="showWorkoutDetails(${JSON.stringify(dayWorkouts[0]).replace(/"/g, '&quot;')}, event)">
                                 <div class="workout-bubble-icon">💪</div>
                                 <div class="workout-bubble-text">${dayWorkouts[0].type}${dayWorkouts.length > 1 ? ` +${dayWorkouts.length - 1}` : ''}</div>
                                 <div class="workout-details">
@@ -455,5 +455,131 @@ function addNoteForDay(year, month, day) {
         // Refresh calendar and close details
         renderCalendar();
         closeDayDetails();
+    }
+}
+
+function showWorkoutDetails(workout, event) {
+    event.stopPropagation(); // Prevent day selection when clicking workout
+    
+    const workoutDate = new Date(workout.date);
+    const formattedDate = workoutDate.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    const formattedTime = workoutDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    const durationText = workout.duration ? `${workout.duration} minutes` : 'Duration not recorded';
+    
+    const exercisesHTML = workout.exercises.map(exercise => {
+        const exerciseName = exercise.name || 'Unnamed Exercise';
+        const exerciseDetails = [];
+        
+        if (exercise.sets) exerciseDetails.push(`${exercise.sets} sets`);
+        if (exercise.reps) exerciseDetails.push(`${exercise.reps} reps`);
+        if (exercise.weight) exerciseDetails.push(`${exercise.weight} lbs`);
+        if (exercise.weightType) exerciseDetails.push(exercise.weightType);
+        
+        const detailsText = exerciseDetails.length > 0 ? exerciseDetails.join(' • ') : 'No details';
+        const volume = exercise.sets && exercise.reps && exercise.weight ? 
+            (exercise.sets * exercise.reps * exercise.weight) : null;
+        
+        return `
+            <div class="workout-exercise-detail">
+                <div class="exercise-detail-header">
+                    <h4>${exerciseName}</h4>
+                    ${volume ? `<span class="exercise-volume">${volume} lbs total volume</span>` : ''}
+                </div>
+                <div class="exercise-detail-stats">
+                    <div class="exercise-stat">
+                        <span class="stat-label">Sets:</span>
+                        <span class="stat-value">${exercise.sets || 'N/A'}</span>
+                    </div>
+                    <div class="exercise-stat">
+                        <span class="stat-label">Reps:</span>
+                        <span class="stat-value">${exercise.reps || 'N/A'}</span>
+                    </div>
+                    <div class="exercise-stat">
+                        <span class="stat-label">Weight:</span>
+                        <span class="stat-value">${exercise.weight ? `${exercise.weight} lbs` : 'N/A'}</span>
+                    </div>
+                    ${exercise.weightType ? `
+                        <div class="exercise-stat">
+                            <span class="stat-label">Type:</span>
+                            <span class="stat-value">${exercise.weightType}</span>
+                        </div>
+                    ` : ''}
+                </div>
+                ${exercise.comments ? `
+                    <div class="exercise-comments">
+                        <span class="comments-label">Notes:</span>
+                        <p>${exercise.comments}</p>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }).join('');
+    
+    let detailsHTML = `
+        <div class="workout-details-modal">
+            <div class="workout-details-header">
+                <div class="workout-details-title">
+                    <h3>${workout.type} Workout</h3>
+                    <div class="workout-details-meta">
+                        <span class="workout-date">${formattedDate}</span>
+                        <span class="workout-time">${formattedTime}</span>
+                        <span class="workout-duration">${durationText}</span>
+                    </div>
+                </div>
+                <button class="close-workout-details" onclick="closeWorkoutDetails()">×</button>
+            </div>
+            <div class="workout-details-content">
+                <div class="workout-summary">
+                    <div class="summary-stat">
+                        <span class="summary-label">Total Exercises:</span>
+                        <span class="summary-value">${workout.exercises.length}</span>
+                    </div>
+                    ${workout.exercises.reduce((total, exercise) => {
+                        return total + (exercise.sets || 0);
+                    }, 0) > 0 ? `
+                        <div class="summary-stat">
+                            <span class="summary-label">Total Sets:</span>
+                            <span class="summary-value">${workout.exercises.reduce((total, exercise) => total + (exercise.sets || 0), 0)}</span>
+                        </div>
+                    ` : ''}
+                    ${workout.exercises.some(ex => ex.weight) ? `
+                        <div class="summary-stat">
+                            <span class="summary-label">Total Volume:</span>
+                            <span class="summary-value">${workout.exercises.reduce((total, exercise) => {
+                                return total + (exercise.sets * exercise.reps * exercise.weight || 0);
+                            }, 0)} lbs</span>
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="workout-exercises">
+                    <h4>Exercises</h4>
+                    ${exercisesHTML}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'workout-details-overlay';
+    modalOverlay.innerHTML = detailsHTML;
+    modalOverlay.onclick = function(e) {
+        if (e.target === modalOverlay) {
+            closeWorkoutDetails();
+        }
+    };
+    
+    document.body.appendChild(modalOverlay);
+}
+
+function closeWorkoutDetails() {
+    const overlay = document.querySelector('.workout-details-overlay');
+    if (overlay) {
+        overlay.remove();
     }
 } 
