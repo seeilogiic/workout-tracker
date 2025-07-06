@@ -164,51 +164,53 @@ function renderWeekView(history, notes) {
                         ${dayNote ? '<div class="note-indicator"></div>' : ''}
                     </div>
                 </div>
-                <div class="calendar-day-content">
-                    ${dayNote ? `
-                        <div class="day-note-bubble">
-                            <div class="note-bubble-icon">📝</div>
-                            <div class="note-bubble-text">${dayNote.length > 20 ? dayNote.substring(0, 20) + '...' : dayNote}</div>
-                        </div>
-                    ` : ''}
-                    ${dayWorkouts.length > 0 ? `
-                        <div class="day-workout-bubble">
-                            <div class="workout-bubble-icon">💪</div>
-                            <div class="workout-bubble-text">${dayWorkouts[0].type}${dayWorkouts.length > 1 ? ` +${dayWorkouts.length - 1}` : ''}</div>
-                            <div class="workout-details">
-                                ${dayWorkouts.map(workout => {
-                                    const workoutDate = new Date(workout.date);
-                                    const formattedTime = workoutDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                                    const durationText = workout.duration ? ` • ${workout.duration} min` : '';
-                                    
-                                    const exercisesHTML = workout.exercises.map(exercise => {
-                                        const exerciseName = exercise.name || 'Unnamed Exercise';
-                                        const exerciseDetails = [];
-                                        
-                                        if (exercise.sets) exerciseDetails.push(`${exercise.sets} sets`);
-                                        if (exercise.reps) exerciseDetails.push(`${exercise.reps} reps`);
-                                        if (exercise.weight) exerciseDetails.push(`${exercise.weight} lbs`);
-                                        if (exercise.weightType) exerciseDetails.push(exercise.weightType);
-                                        
-                                        const detailsText = exerciseDetails.length > 0 ? exerciseDetails.join(' • ') : 'No details';
-                                        
-                                        return `<div class="workout-detail-item exercise">${exerciseName}: ${detailsText}</div>`;
-                                    }).join('');
-                                    
-                                    return `
-                                        <div class="workout-detail-item duration">${formattedTime}${durationText}</div>
-                                        ${exercisesHTML}
-                                    `;
-                                }).join('')}
+                ${isSelected ? `
+                    <div class="calendar-day-content">
+                        ${dayNote ? `
+                            <div class="day-note-bubble">
+                                <div class="note-bubble-icon">📝</div>
+                                <div class="note-bubble-text">${dayNote.length > 20 ? dayNote.substring(0, 20) + '...' : dayNote}</div>
                             </div>
-                        </div>
-                    ` : ''}
-                    ${!dayNote && dayWorkouts.length === 0 ? `
-                        <div class="day-empty-bubble">
-                            <div class="empty-bubble-text">No activities today</div>
-                        </div>
-                    ` : ''}
-                </div>
+                        ` : ''}
+                        ${dayWorkouts.length > 0 ? `
+                            <div class="day-workout-bubble">
+                                <div class="workout-bubble-icon">💪</div>
+                                <div class="workout-bubble-text">${dayWorkouts[0].type}${dayWorkouts.length > 1 ? ` +${dayWorkouts.length - 1}` : ''}</div>
+                                <div class="workout-details">
+                                    ${dayWorkouts.map(workout => {
+                                        const workoutDate = new Date(workout.date);
+                                        const formattedTime = workoutDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                                        const durationText = workout.duration ? ` • ${workout.duration} min` : '';
+                                        
+                                        const exercisesHTML = workout.exercises.map(exercise => {
+                                            const exerciseName = exercise.name || 'Unnamed Exercise';
+                                            const exerciseDetails = [];
+                                            
+                                            if (exercise.sets) exerciseDetails.push(`${exercise.sets} sets`);
+                                            if (exercise.reps) exerciseDetails.push(`${exercise.reps} reps`);
+                                            if (exercise.weight) exerciseDetails.push(`${exercise.weight} lbs`);
+                                            if (exercise.weightType) exerciseDetails.push(exercise.weightType);
+                                            
+                                            const detailsText = exerciseDetails.length > 0 ? exerciseDetails.join(' • ') : 'No details';
+                                            
+                                            return `<div class="workout-detail-item exercise">${exerciseName}: ${detailsText}</div>`;
+                                        }).join('');
+                                        
+                                        return `
+                                            <div class="workout-detail-item duration">${formattedTime}${durationText}</div>
+                                            ${exercisesHTML}
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        ${!dayNote && dayWorkouts.length === 0 ? `
+                            <div class="day-empty-bubble">
+                                <div class="empty-bubble-text">No activities today</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                ` : ''}
             </div>
         `;
     });
