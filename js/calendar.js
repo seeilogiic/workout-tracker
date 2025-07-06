@@ -1,34 +1,94 @@
 // Calendar Functions
-let selectedDate = new Date(); // Start with today as selected
+let selectedDate = new Date();
+let currentView = 'week'; // 'week', 'month', 'year'
+let currentYear = selectedDate.getFullYear();
+let currentMonth = selectedDate.getMonth();
 
 function loadCalendar() {
     updateCalendarDisplay();
     renderCalendar();
+    updateActiveViewButton();
 }
 
 function updateCalendarDisplay() {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December'];
-    const selectedDateText = `${monthNames[selectedDate.getMonth()]} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`;
-    document.getElementById('currentMonthYear').textContent = selectedDateText;
+    
+    let displayText = '';
+    if (currentView === 'week') {
+        displayText = `${monthNames[selectedDate.getMonth()]} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`;
+    } else if (currentView === 'month') {
+        displayText = `${monthNames[currentMonth]} ${currentYear}`;
+    } else if (currentView === 'year') {
+        displayText = `${currentYear}`;
+    }
+    
+    document.getElementById('currentMonthYear').textContent = displayText;
 }
 
-function previousWeek() {
-    selectedDate.setDate(selectedDate.getDate() - 7);
+function previousPeriod() {
+    if (currentView === 'week') {
+        selectedDate.setDate(selectedDate.getDate() - 7);
+    } else if (currentView === 'month') {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+    } else if (currentView === 'year') {
+        currentYear--;
+    }
     updateCalendarDisplay();
     renderCalendar();
 }
 
-function nextWeek() {
-    selectedDate.setDate(selectedDate.getDate() + 7);
+function nextPeriod() {
+    if (currentView === 'week') {
+        selectedDate.setDate(selectedDate.getDate() + 7);
+    } else if (currentView === 'month') {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+    } else if (currentView === 'year') {
+        currentYear++;
+    }
     updateCalendarDisplay();
     renderCalendar();
 }
 
 function selectDate(date) {
     selectedDate = new Date(date);
+    if (currentView === 'month') {
+        currentMonth = selectedDate.getMonth();
+        currentYear = selectedDate.getFullYear();
+    }
     updateCalendarDisplay();
     renderCalendar();
+}
+
+function changeView(view) {
+    currentView = view;
+    if (view === 'month') {
+        currentMonth = selectedDate.getMonth();
+        currentYear = selectedDate.getFullYear();
+    } else if (view === 'year') {
+        currentYear = selectedDate.getFullYear();
+    }
+    updateCalendarDisplay();
+    renderCalendar();
+    updateActiveViewButton();
+}
+
+function updateActiveViewButton() {
+    // Remove active class from all view buttons
+    document.getElementById('weekViewBtn').classList.remove('active');
+    document.getElementById('monthViewBtn').classList.remove('active');
+    document.getElementById('yearViewBtn').classList.remove('active');
+    
+    // Add active class to current view button
+    document.getElementById(currentView + 'ViewBtn').classList.add('active');
 }
 
 function renderCalendar() {
@@ -38,6 +98,20 @@ function renderCalendar() {
     const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
     const notes = JSON.parse(localStorage.getItem('calendarNotes') || '{}');
     
+    let calendarHTML = '';
+    
+    if (currentView === 'week') {
+        calendarHTML = renderWeekView(history, notes);
+    } else if (currentView === 'month') {
+        calendarHTML = renderMonthView(history, notes);
+    } else if (currentView === 'year') {
+        calendarHTML = renderYearView(history, notes);
+    }
+    
+    calendarDays.innerHTML = calendarHTML;
+}
+
+function renderWeekView(history, notes) {
     let calendarHTML = '';
     
     // Calculate the 7 days (3 before, selected day, 3 after)
@@ -140,7 +214,115 @@ function renderCalendar() {
     });
     calendarHTML += '</div>';
     
-    calendarDays.innerHTML = calendarHTML;
+    return calendarHTML;
+}
+
+function renderMonthView(history, notes) {
+    let calendarHTML = '';
+    
+    // Get first day of month and number of days
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = firstDay.getDay();
+    
+    // Add weekday headers
+    calendarHTML += '<div class="calendar-month-header">';
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    weekdays.forEach(day => {
+        calendarHTML += `<div class="month-weekday-header">${day}</div>`;
+    });
+    calendarHTML += '</div>';
+    
+    // Add month days
+    calendarHTML += '<div class="calendar-month-days">';
+    
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < startingDay; i++) {
+        calendarHTML += '<div class="month-day other-month"></div>';
+    }
+    
+    // Add days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const date = new Date(currentYear, currentMonth, day);
+        const isToday = date.toDateString() === new Date().toDateString();
+        const isSelected = date.toDateString() === selectedDate.toDateString();
+        
+        // Get workouts for this day
+        const dayWorkouts = history.filter(workout => {
+            const workoutDate = new Date(workout.date);
+            return workoutDate.getFullYear() === currentYear && 
+                   workoutDate.getMonth() === currentMonth && 
+                   workoutDate.getDate() === day;
+        });
+        
+        const dayNote = notes[`${currentYear}-${currentMonth + 1}-${day}`];
+        
+        let dayClass = 'month-day';
+        if (isSelected) dayClass += ' selected';
+        if (isToday) dayClass += ' today';
+        
+        let indicatorsHTML = '';
+        if (dayWorkouts.length > 0) {
+            indicatorsHTML += '<div class="month-workout-indicator"></div>';
+        }
+        if (dayNote) {
+            indicatorsHTML += '<div class="month-note-indicator"></div>';
+        }
+        
+        calendarHTML += `
+            <div class="${dayClass}" onclick="selectDate('${date.toISOString()}')">
+                <div class="month-day-number">${day}</div>
+                <div class="month-day-indicators">${indicatorsHTML}</div>
+            </div>
+        `;
+    }
+    
+    calendarHTML += '</div>';
+    
+    return calendarHTML;
+}
+
+function renderYearView(history, notes) {
+    let calendarHTML = '';
+    
+    calendarHTML += '<div class="calendar-year-grid">';
+    
+    for (let month = 0; month < 12; month++) {
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        
+        // Count workouts for this month
+        const monthWorkouts = history.filter(workout => {
+            const workoutDate = new Date(workout.date);
+            return workoutDate.getFullYear() === currentYear && 
+                   workoutDate.getMonth() === month;
+        });
+        
+        const isCurrentMonth = month === new Date().getMonth() && currentYear === new Date().getFullYear();
+        const isSelectedMonth = month === selectedDate.getMonth() && currentYear === selectedDate.getFullYear();
+        
+        let monthClass = 'year-month';
+        if (isSelectedMonth) monthClass += ' selected';
+        if (isCurrentMonth) monthClass += ' current';
+        
+        calendarHTML += `
+            <div class="${monthClass}" onclick="selectMonth(${month})">
+                <div class="year-month-name">${monthNames[month]}</div>
+                <div class="year-month-count">${monthWorkouts.length} workouts</div>
+            </div>
+        `;
+    }
+    
+    calendarHTML += '</div>';
+    
+    return calendarHTML;
+}
+
+function selectMonth(month) {
+    currentMonth = month;
+    selectedDate = new Date(currentYear, month, 1);
+    changeView('month');
 }
 
 function showDayDetails(year, month, day) {

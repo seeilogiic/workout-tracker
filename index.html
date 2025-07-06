@@ -172,13 +172,19 @@
             <div id="calendarSection" class="calendar-section">
                 <div class="calendar-header">
                     <h2>Workout Calendar</h2>
-                    <p>Weekly view of your workouts and notes</p>
+                    <p>View your workouts and notes</p>
+                </div>
+
+                <div class="calendar-view-selector">
+                    <button class="view-btn" onclick="changeView('week')" id="weekViewBtn">Week</button>
+                    <button class="view-btn" onclick="changeView('month')" id="monthViewBtn">Month</button>
+                    <button class="view-btn" onclick="changeView('year')" id="yearViewBtn">Year</button>
                 </div>
 
                 <div class="calendar-controls">
-                    <button class="calendar-nav-btn" onclick="previousWeek()">← Week</button>
+                    <button class="calendar-nav-btn" onclick="previousPeriod()">←</button>
                     <h3 id="currentMonthYear">January 2024</h3>
-                    <button class="calendar-nav-btn" onclick="nextWeek()">Week →</button>
+                    <button class="calendar-nav-btn" onclick="nextPeriod()">→</button>
                 </div>
 
                 <div id="calendarDays" class="calendar-days"></div>
