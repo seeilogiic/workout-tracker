@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Workout Tracker</title>
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px 20px;
+        }
+
+        .workout-buttons {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .workout-btn {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .workout-btn:hover {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .workout-btn.selected {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .workout-btn.selected::after {
+            content: " ✓";
+            font-weight: bold;
+        }
+
+        .status {
+            background: #f1f5f9;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .status h3 {
+            color: #475569;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .status p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .clear-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .clear-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .last-workout {
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .last-workout h3 {
+            color: #065f46;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .last-workout p {
+            color: #047857;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 25px 15px;
+            }
+            
+            .content {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏋️ Workout Tracker</h1>
+            <p>Select your workout type</p>
+        </div>
+        
+        <div class="content">
+            <div class="workout-buttons">
+                <button class="workout-btn" data-workout="push">Push</button>
+                <button class="workout-btn" data-workout="pull">Pull</button>
+                <button class="workout-btn" data-workout="legs">Legs</button>
+                <button class="workout-btn" data-workout="upper">Upper</button>
+                <button class="workout-btn" data-workout="lower">Lower</button>
+                <button class="workout-btn" data-workout="full-body">Full Body</button>
+                <button class="workout-btn" data-workout="other">Other</button>
+            </div>
+
+            <div id="lastWorkout" class="last-workout" style="display: none;">
+                <h3>Last Workout</h3>
+                <p id="lastWorkoutText"></p>
+            </div>
+
+            <div class="status">
+                <h3>Your Progress</h3>
+                <p id="workoutCount">No workouts recorded yet</p>
+            </div>
+
+            <button class="clear-btn" onclick="clearData()">Clear All Data</button>
+        </div>
+    </div>
+
+    <script>
+        // Local storage keys
+        const STORAGE_KEYS = {
+            SELECTED_WORKOUT: 'selectedWorkout',
+            WORKOUT_COUNT: 'workoutCount',
+            LAST_WORKOUT: 'lastWorkout',
+            LAST_WORKOUT_DATE: 'lastWorkoutDate'
+        };
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            const workoutButtons = document.querySelectorAll('.workout-btn');
+            workoutButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const workoutType = this.getAttribute('data-workout');
+                    selectWorkout(workoutType);
+                });
+            });
+        }
+
+        function selectWorkout(workoutType) {
+            // Remove previous selection
+            document.querySelectorAll('.workout-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            // Add selection to clicked button
+            const selectedButton = document.querySelector(`[data-workout="${workoutType}"]`);
+            selectedButton.classList.add('selected');
+
+            // Save to local storage
+            localStorage.setItem(STORAGE_KEYS.SELECTED_WORKOUT, workoutType);
+            
+            // Update workout count
+            const currentCount = parseInt(localStorage.getItem(STORAGE_KEYS.WORKOUT_COUNT) || '0');
+            const newCount = currentCount + 1;
+            localStorage.setItem(STORAGE_KEYS.WORKOUT_COUNT, newCount.toString());
+
+            // Save last workout info
+            const now = new Date();
+            localStorage.setItem(STORAGE_KEYS.LAST_WORKOUT, workoutType);
+            localStorage.setItem(STORAGE_KEYS.LAST_WORKOUT_DATE, now.toISOString());
+
+            // Update display
+            updateDisplay();
+
+            // Show success feedback
+            showSuccessFeedback(workoutType);
+        }
+
+        function loadData() {
+            const selectedWorkout = localStorage.getItem(STORAGE_KEYS.SELECTED_WORKOUT);
+            if (selectedWorkout) {
+                const button = document.querySelector(`[data-workout="${selectedWorkout}"]`);
+                if (button) {
+                    button.classList.add('selected');
+                }
+            }
+
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const workoutCount = parseInt(localStorage.getItem(STORAGE_KEYS.WORKOUT_COUNT) || '0');
+            const lastWorkout = localStorage.getItem(STORAGE_KEYS.LAST_WORKOUT);
+            const lastWorkoutDate = localStorage.getItem(STORAGE_KEYS.LAST_WORKOUT_DATE);
+
+            // Update workout count
+            const countElement = document.getElementById('workoutCount');
+            if (workoutCount === 0) {
+                countElement.textContent = 'No workouts recorded yet';
+            } else if (workoutCount === 1) {
+                countElement.textContent = '1 workout completed';
+            } else {
+                countElement.textContent = `${workoutCount} workouts completed`;
+            }
+
+            // Update last workout display
+            const lastWorkoutDiv = document.getElementById('lastWorkout');
+            const lastWorkoutText = document.getElementById('lastWorkoutText');
+            
+            if (lastWorkout && lastWorkoutDate) {
+                const date = new Date(lastWorkoutDate);
+                const formattedDate = date.toLocaleDateString() + ' at ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                lastWorkoutText.textContent = `${lastWorkout} - ${formattedDate}`;
+                lastWorkoutDiv.style.display = 'block';
+            } else {
+                lastWorkoutDiv.style.display = 'none';
+            }
+        }
+
+        function showSuccessFeedback(workoutType) {
+            // Create a temporary success message
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #10b981;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            `;
+            successDiv.textContent = `✅ ${workoutType} workout saved!`;
+            
+            document.body.appendChild(successDiv);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
+
+        function clearData() {
+            if (confirm('Are you sure you want to clear all workout data? This cannot be undone.')) {
+                localStorage.removeItem(STORAGE_KEYS.SELECTED_WORKOUT);
+                localStorage.removeItem(STORAGE_KEYS.WORKOUT_COUNT);
+                localStorage.removeItem(STORAGE_KEYS.LAST_WORKOUT);
+                localStorage.removeItem(STORAGE_KEYS.LAST_WORKOUT_DATE);
+                
+                // Reset UI
+                document.querySelectorAll('.workout-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                updateDisplay();
+                
+                // Show feedback
+                const successDiv = document.createElement('div');
+                successDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #6b7280;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    z-index: 1000;
+                `;
+                successDiv.textContent = '🗑️ All data cleared';
+                
+                document.body.appendChild(successDiv);
+                
+                setTimeout(() => {
+                    successDiv.remove();
+                }, 3000);
+            }
+        }
+
+        // Service Worker registration for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed');
+                    });
+            });
+        }
+    </script>
+</body>
+</html> 
