@@ -793,6 +793,215 @@
             display: block;
         }
 
+        /* Statistics Section Styles */
+        .stats-section {
+            display: none;
+        }
+
+        .stats-section.active {
+            display: block;
+        }
+
+        .stats-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        .stats-header h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-header p {
+            opacity: 0.9;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .exercise-selector {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-selector label {
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .exercise-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            background: #1e293b;
+            color: #e2e8f0;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .exercise-selector select:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+        }
+
+        .stat-card h3 {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            color: #e2e8f0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .progress-chart {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-chart h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .recent-sessions {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .recent-sessions h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .session-item {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .session-item:hover {
+            border-color: #10b981;
+            transform: translateX(5px);
+        }
+
+        .session-date {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .session-details {
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+
+        .stats-btn {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .stats-btn:hover {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.4);
+        }
+
+        .stats-btn:hover::before {
+            left: 100%;
+        }
+
         .history-header {
             background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%);
             color: white;
@@ -1035,6 +1244,7 @@
                 </div>
 
                 <button class="history-btn" onclick="showHistory()">View Workout History</button>
+                <button class="stats-btn" onclick="showStats()">Exercise Statistics</button>
                 <button class="clear-btn" onclick="clearData()">Clear All Data</button>
             </div>
 
@@ -1107,6 +1317,54 @@
                     <div class="no-history">
                         <h3>No workouts yet</h3>
                         <p>Complete your first workout to see it here!</p>
+                    </div>
+                </div>
+
+                <button class="back-btn" onclick="backToSelection()">← Back to Workout Types</button>
+            </div>
+
+            <!-- Statistics Section -->
+            <div id="statsSection" class="stats-section">
+                <div class="stats-header">
+                    <h2>Exercise Statistics</h2>
+                    <p>Track your progress over time</p>
+                </div>
+
+                <div class="exercise-selector">
+                    <label for="exerciseSelect">Select Exercise:</label>
+                    <select id="exerciseSelect" onchange="loadExerciseStats()">
+                        <option value="">Choose an exercise...</option>
+                    </select>
+                </div>
+
+                <div id="exerciseStats" class="exercise-stats">
+                    <div class="stats-overview">
+                        <div class="stat-card">
+                            <h3>Current 1RM</h3>
+                            <div id="current1RM" class="stat-value">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Progress</h3>
+                            <div id="totalProgress" class="stat-value">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Year Progress</h3>
+                            <div id="yearProgress" class="stat-value">-</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Month Progress</h3>
+                            <div id="monthProgress" class="stat-value">-</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-chart">
+                        <h3>Progress Over Time</h3>
+                        <canvas id="progressChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="recent-sessions">
+                        <h3>Recent Sessions</h3>
+                        <div id="recentSessions"></div>
                     </div>
                 </div>
 
@@ -1185,8 +1443,18 @@
             document.getElementById('workoutSelection').style.display = 'none';
             document.getElementById('workoutTracking').classList.remove('active');
             document.getElementById('historySection').classList.add('active');
+            document.getElementById('statsSection').classList.remove('active');
             
             loadHistory();
+        }
+
+        function showStats() {
+            document.getElementById('workoutSelection').style.display = 'none';
+            document.getElementById('workoutTracking').classList.remove('active');
+            document.getElementById('historySection').classList.remove('active');
+            document.getElementById('statsSection').classList.add('active');
+            
+            loadExerciseList();
         }
 
         function loadHistory() {
@@ -1247,6 +1515,7 @@
         function backToSelection() {
             document.getElementById('workoutTracking').classList.remove('active');
             document.getElementById('historySection').classList.remove('active');
+            document.getElementById('statsSection').classList.remove('active');
             document.getElementById('workoutSelection').style.display = 'block';
             
             // Clear current workout session and reset selection
@@ -1257,6 +1526,246 @@
             document.querySelectorAll('.workout-btn').forEach(btn => {
                 btn.classList.remove('selected');
             });
+        }
+
+        // 1RM calculation using Brzycki formula
+        function calculate1RM(weight, reps) {
+            if (reps === 1) return weight;
+            return weight * (36 / (37 - reps));
+        }
+
+        // Load list of all exercises for dropdown
+        function loadExerciseList() {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            const exerciseSet = new Set();
+            
+            history.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    if (exercise.name) {
+                        exerciseSet.add(exercise.name);
+                    }
+                });
+            });
+            
+            const exerciseSelect = document.getElementById('exerciseSelect');
+            exerciseSelect.innerHTML = '<option value="">Choose an exercise...</option>';
+            
+            Array.from(exerciseSet).sort().forEach(exercise => {
+                const option = document.createElement('option');
+                option.value = exercise;
+                option.textContent = exercise;
+                exerciseSelect.appendChild(option);
+            });
+        }
+
+        // Load statistics for selected exercise
+        function loadExerciseStats() {
+            const selectedExercise = document.getElementById('exerciseSelect').value;
+            if (!selectedExercise) {
+                document.getElementById('exerciseStats').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('exerciseStats').style.display = 'block';
+            
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            const exerciseData = [];
+            
+            // Collect all data for this exercise
+            history.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    if (exercise.name === selectedExercise && exercise.weight && exercise.reps) {
+                        exerciseData.push({
+                            date: new Date(workout.date),
+                            weight: exercise.weight,
+                            reps: exercise.reps,
+                            sets: exercise.sets,
+                            oneRM: calculate1RM(exercise.weight, exercise.reps)
+                        });
+                    }
+                });
+            });
+            
+            if (exerciseData.length === 0) {
+                showNoDataMessage();
+                return;
+            }
+            
+            // Sort by date (newest first)
+            exerciseData.sort((a, b) => b.date - a.date);
+            
+            // Calculate statistics
+            const current1RM = exerciseData[0].oneRM;
+            const first1RM = exerciseData[exerciseData.length - 1].oneRM;
+            
+            const now = new Date();
+            const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+            const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+            
+            const yearData = exerciseData.filter(data => data.date >= oneYearAgo);
+            const monthData = exerciseData.filter(data => data.date >= oneMonthAgo);
+            
+            const yearFirst1RM = yearData.length > 0 ? yearData[yearData.length - 1].oneRM : current1RM;
+            const monthFirst1RM = monthData.length > 0 ? monthData[monthData.length - 1].oneRM : current1RM;
+            
+            // Calculate progress percentages
+            const totalProgress = ((current1RM - first1RM) / first1RM * 100).toFixed(1);
+            const yearProgress = ((current1RM - yearFirst1RM) / yearFirst1RM * 100).toFixed(1);
+            const monthProgress = ((current1RM - monthFirst1RM) / monthFirst1RM * 100).toFixed(1);
+            
+            // Update UI
+            document.getElementById('current1RM').textContent = `${current1RM.toFixed(1)} lbs`;
+            document.getElementById('totalProgress').textContent = `${totalProgress}%`;
+            document.getElementById('yearProgress').textContent = `${yearProgress}%`;
+            document.getElementById('monthProgress').textContent = `${monthProgress}%`;
+            
+            // Update progress colors
+            updateProgressColors(totalProgress, yearProgress, monthProgress);
+            
+            // Draw chart
+            drawProgressChart(exerciseData.slice(0, 20)); // Last 20 sessions
+            
+            // Show recent sessions
+            showRecentSessions(exerciseData.slice(0, 10)); // Last 10 sessions
+        }
+
+        function updateProgressColors(total, year, month) {
+            const elements = {
+                total: document.getElementById('totalProgress'),
+                year: document.getElementById('yearProgress'),
+                month: document.getElementById('monthProgress')
+            };
+            
+            const values = { total: parseFloat(total), year: parseFloat(year), month: parseFloat(month) };
+            
+            Object.keys(elements).forEach(key => {
+                const element = elements[key];
+                const value = values[key];
+                
+                if (value > 0) {
+                    element.style.color = '#10b981';
+                } else if (value < 0) {
+                    element.style.color = '#ef4444';
+                } else {
+                    element.style.color = '#e2e8f0';
+                }
+            });
+        }
+
+        function drawProgressChart(data) {
+            const canvas = document.getElementById('progressChart');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (data.length < 2) {
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Need more data for chart', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+            
+            // Reverse data for chronological order
+            const chartData = data.reverse();
+            
+            const padding = 40;
+            const chartWidth = canvas.width - 2 * padding;
+            const chartHeight = canvas.height - 2 * padding;
+            
+            // Find min/max values
+            const oneRMValues = chartData.map(d => d.oneRM);
+            const min1RM = Math.min(...oneRMValues);
+            const max1RM = Math.max(...oneRMValues);
+            const range = max1RM - min1RM;
+            
+            // Draw grid
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = padding + (i * chartHeight / 4);
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(canvas.width - padding, y);
+                ctx.stroke();
+                
+                // Draw labels
+                const value = max1RM - (i * range / 4);
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText(`${value.toFixed(0)}`, padding - 5, y + 3);
+            }
+            
+            // Draw line chart
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            
+            chartData.forEach((point, index) => {
+                const x = padding + (index * chartWidth / (chartData.length - 1));
+                const y = padding + ((max1RM - point.oneRM) * chartHeight / range);
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Draw points
+            ctx.fillStyle = '#10b981';
+            chartData.forEach((point, index) => {
+                const x = padding + (index * chartWidth / (chartData.length - 1));
+                const y = padding + ((max1RM - point.oneRM) * chartHeight / range);
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        function showRecentSessions(data) {
+            const container = document.getElementById('recentSessions');
+            
+            if (data.length === 0) {
+                container.innerHTML = '<p style="color: #94a3b8; text-align: center;">No recent sessions</p>';
+                return;
+            }
+            
+            const sessionsHTML = data.map(session => {
+                const dateStr = session.date.toLocaleDateString();
+                const details = `${session.sets} x ${session.reps} @ ${session.weight} lbs (1RM: ${session.oneRM.toFixed(1)} lbs)`;
+                
+                return `
+                    <div class="session-item">
+                        <div class="session-date">${dateStr}</div>
+                        <div class="session-details">${details}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.innerHTML = sessionsHTML;
+        }
+
+        function showNoDataMessage() {
+            document.getElementById('current1RM').textContent = 'No data';
+            document.getElementById('totalProgress').textContent = 'No data';
+            document.getElementById('yearProgress').textContent = 'No data';
+            document.getElementById('monthProgress').textContent = 'No data';
+            
+            const canvas = document.getElementById('progressChart');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('No data available for this exercise', canvas.width / 2, canvas.height / 2);
+            
+            document.getElementById('recentSessions').innerHTML = '<p style="color: #94a3b8; text-align: center;">No sessions found</p>';
         }
 
         function addExercise() {
