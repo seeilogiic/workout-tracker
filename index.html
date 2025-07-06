@@ -582,6 +582,220 @@
             left: 100%;
         }
 
+        /* Workout Setup Styles */
+        .workout-setup {
+            margin-bottom: 30px;
+        }
+
+        .workout-details {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-input {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 2px solid #10b981;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-input::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        .exercise-input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .exercise-input-header h3 {
+            color: #e2e8f0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-exercise-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-exercise-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+        .exercise-input-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .save-exercise-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .save-exercise-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .save-exercise-btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .save-exercise-btn:hover::before {
+            left: 100%;
+        }
+
+        .exercise-summary-section {
+            margin-bottom: 20px;
+        }
+
+        .exercise-summary-section h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .exercise-bubble {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-bubble::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .exercise-bubble:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+        }
+
+        .exercise-bubble:hover::before {
+            opacity: 1;
+        }
+
+        .exercise-bubble-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .exercise-bubble-name {
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 16px;
+        }
+
+        .exercise-bubble-details {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .exercise-bubble-comments {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .remove-exercise-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-exercise-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .no-exercises {
+            text-align: center;
+            padding: 30px 20px;
+            color: #64748b;
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .no-exercises h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #94a3b8;
+        }
+
+        .no-exercises p {
+            font-size: 14px;
+        }
+
         /* History Styles */
         .history-section {
             display: none;
@@ -838,17 +1052,74 @@
 
             <!-- Workout Tracking Section -->
             <div id="workoutTracking" class="workout-tracking">
-                <div class="workout-header">
-                    <h2 id="currentWorkoutType">Workout</h2>
-                    <p id="workoutDate"></p>
-                    <p id="exerciseCount" style="margin-top: 10px; font-size: 14px; opacity: 0.9;">No exercises added yet</p>
+                <!-- Workout Setup -->
+                <div id="workoutSetup" class="workout-setup">
+                    <div class="workout-header">
+                        <h2 id="currentWorkoutType">Workout</h2>
+                        <p id="workoutDate"></p>
+                    </div>
+
+                    <div class="workout-details">
+                        <div class="input-group full-width">
+                            <label>Workout Name</label>
+                            <input type="text" id="workoutName" placeholder="e.g., Upper Body Strength" onchange="updateWorkoutName(this.value)">
+                        </div>
+                        
+                        <div class="input-group full-width">
+                            <label>Notes</label>
+                            <textarea id="workoutNotes" placeholder="Any notes about this workout?" rows="3" onchange="updateWorkoutNotes(this.value)"></textarea>
+                        </div>
+                    </div>
+
+                    <button class="add-exercise-btn" onclick="addExercise()">➕ Add Exercise</button>
                 </div>
 
-                <button class="add-exercise-btn" onclick="addExercise()">➕ Add Exercise</button>
+                <!-- Exercise Input -->
+                <div id="exerciseInput" class="exercise-input" style="display: none;">
+                    <div class="exercise-input-header">
+                        <h3>Add Exercise</h3>
+                        <button class="close-exercise-btn" onclick="closeExerciseInput()">✕</button>
+                    </div>
+                    
+                    <div class="exercise-input-form">
+                        <div class="input-group full-width">
+                            <label>Exercise Name</label>
+                            <input type="text" id="exerciseNameInput" placeholder="e.g., Bench Press">
+                        </div>
+                        
+                        <div class="exercise-inputs">
+                            <div class="input-group">
+                                <label>Sets</label>
+                                <input type="number" id="exerciseSetsInput" min="1" value="3">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label>Reps</label>
+                                <input type="number" id="exerciseRepsInput" min="1" value="10">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label>Weight (lbs)</label>
+                                <input type="number" id="exerciseWeightInput" min="0" step="0.5" placeholder="0">
+                            </div>
+                        </div>
+                        
+                        <div class="input-group full-width">
+                            <label>Comments</label>
+                            <textarea id="exerciseCommentsInput" placeholder="How did it feel? Any notes?" rows="2"></textarea>
+                        </div>
+                        
+                        <button class="save-exercise-btn" onclick="saveExercise()">💾 Add to Workout</button>
+                    </div>
+                </div>
 
-                <div id="exercisesContainer"></div>
+                <!-- Exercise Summary -->
+                <div id="exerciseSummary" class="exercise-summary-section">
+                    <h3>Exercises in this workout:</h3>
+                    <div id="exercisesList"></div>
+                </div>
 
-                <button class="save-workout-btn" onclick="saveWorkout()">💾 Save Workout</button>
+                <button class="save-workout-btn" onclick="saveWorkout()">💾 Save Complete Workout</button>
                 <button class="back-btn" onclick="backToSelection()">← Back to Workout Types</button>
             </div>
 
@@ -932,8 +1203,13 @@
             document.getElementById('currentWorkoutType').textContent = workoutType.charAt(0).toUpperCase() + workoutType.slice(1) + ' Workout';
             document.getElementById('workoutDate').textContent = new Date().toLocaleDateString() + ' at ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            document.getElementById('exercisesContainer').innerHTML = '';
-            updateExerciseCount();
+            // Clear workout details
+            document.getElementById('workoutName').value = '';
+            document.getElementById('workoutNotes').value = '';
+            
+            // Hide exercise input and update exercise list
+            document.getElementById('exerciseInput').style.display = 'none';
+            updateExerciseList();
         }
 
         function showHistory() {
@@ -1015,72 +1291,108 @@
         }
 
         function addExercise() {
+            // Show exercise input form
+            document.getElementById('exerciseInput').style.display = 'block';
+            
+            // Clear previous inputs
+            document.getElementById('exerciseNameInput').value = '';
+            document.getElementById('exerciseSetsInput').value = '3';
+            document.getElementById('exerciseRepsInput').value = '10';
+            document.getElementById('exerciseWeightInput').value = '';
+            document.getElementById('exerciseCommentsInput').value = '';
+            
+            // Scroll to exercise input
+            document.getElementById('exerciseInput').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeExerciseInput() {
+            document.getElementById('exerciseInput').style.display = 'none';
+        }
+
+        function saveExercise() {
+            const name = document.getElementById('exerciseNameInput').value.trim();
+            const sets = parseInt(document.getElementById('exerciseSetsInput').value);
+            const reps = parseInt(document.getElementById('exerciseRepsInput').value);
+            const weight = parseFloat(document.getElementById('exerciseWeightInput').value) || 0;
+            const comments = document.getElementById('exerciseCommentsInput').value.trim();
+
+            if (!name) {
+                alert('Please enter an exercise name.');
+                return;
+            }
+
             exerciseCounter++;
             const exerciseId = `exercise-${exerciseCounter}`;
-            
-            const exerciseHTML = `
-                <div class="exercise-item" id="${exerciseId}">
-                    <div class="exercise-header">
-                        <div class="exercise-name">Exercise ${exerciseCounter}</div>
-                        <button class="delete-exercise" onclick="deleteExercise('${exerciseId}')">🗑️</button>
-                    </div>
-                    
-                    <div class="exercise-inputs">
-                        <div class="input-group full-width">
-                            <label>Exercise Name</label>
-                            <input type="text" placeholder="e.g., Bench Press" onchange="updateExerciseName('${exerciseId}', this.value)">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label>Sets</label>
-                            <input type="number" min="1" value="3" onchange="updateExerciseSets('${exerciseId}', this.value)">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label>Reps</label>
-                            <input type="number" min="1" value="10" onchange="updateExerciseReps('${exerciseId}', this.value)">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label>Weight (lbs)</label>
-                            <input type="number" min="0" step="0.5" placeholder="0" onchange="updateExerciseWeight('${exerciseId}', this.value)">
-                        </div>
-                        
-                        <div class="input-group full-width">
-                            <label>Comments</label>
-                            <textarea placeholder="How did it feel? Any notes?" rows="2" onchange="updateExerciseComments('${exerciseId}', this.value)"></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="sets-container">
-                        <h4 style="margin-bottom: 10px; color: #475569;">Sets:</h4>
-                        <div class="set-item">
-                            <div class="set-number">Set 1</div>
-                            <input type="number" class="set-input" placeholder="Reps" onchange="updateSetReps('${exerciseId}', 0, this.value)">
-                            <input type="number" class="set-input" placeholder="Weight" step="0.5" onchange="updateSetWeight('${exerciseId}', 0, this.value)">
-                            <button class="remove-set-btn" onclick="removeSet('${exerciseId}', 0)" style="display: none;">Remove</button>
-                        </div>
-                        <button class="add-set-btn" onclick="addSet('${exerciseId}')">+ Add Set</button>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('exercisesContainer').insertAdjacentHTML('beforeend', exerciseHTML);
-            
-            // Initialize exercise data
+
+            // Add exercise to current workout
             if (!currentWorkout.exercises) currentWorkout.exercises = [];
             currentWorkout.exercises.push({
                 id: exerciseId,
-                name: '',
-                sets: 3,
-                reps: 10,
-                weight: 0,
-                comments: '',
-                setData: [{ reps: '', weight: '' }]
+                name: name,
+                sets: sets,
+                reps: reps,
+                weight: weight,
+                comments: comments
             });
 
-            // Update exercise count display
-            updateExerciseCount();
+            // Close exercise input
+            closeExerciseInput();
+
+            // Update exercise list
+            updateExerciseList();
+
+            // Show success feedback
+            showSuccessFeedback(`${name} added to workout!`);
+        }
+
+        function updateExerciseList() {
+            const exercisesList = document.getElementById('exercisesList');
+            
+            if (!currentWorkout || !currentWorkout.exercises || currentWorkout.exercises.length === 0) {
+                exercisesList.innerHTML = `
+                    <div class="no-exercises">
+                        <h4>No exercises yet</h4>
+                        <p>Click "Add Exercise" to start building your workout</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const exercisesHTML = currentWorkout.exercises.map((exercise, index) => {
+                const details = `${exercise.sets} x ${exercise.reps} - ${exercise.weight} lbs`;
+                const comments = exercise.comments ? `<div class="exercise-bubble-comments">${exercise.comments}</div>` : '';
+                
+                return `
+                    <div class="exercise-bubble">
+                        <div class="exercise-bubble-header">
+                            <div class="exercise-bubble-name">${exercise.name}</div>
+                            <button class="remove-exercise-btn" onclick="removeExercise(${index})">🗑️</button>
+                        </div>
+                        <div class="exercise-bubble-details">${details}</div>
+                        ${comments}
+                    </div>
+                `;
+            }).join('');
+
+            exercisesList.innerHTML = exercisesHTML;
+        }
+
+        function removeExercise(index) {
+            currentWorkout.exercises.splice(index, 1);
+            updateExerciseList();
+            showSuccessFeedback('Exercise removed from workout');
+        }
+
+        function updateWorkoutName(name) {
+            if (currentWorkout) {
+                currentWorkout.name = name;
+            }
+        }
+
+        function updateWorkoutNotes(notes) {
+            if (currentWorkout) {
+                currentWorkout.notes = notes;
+            }
         }
 
         function deleteExercise(exerciseId) {
@@ -1209,13 +1521,13 @@
             history.push(currentWorkout);
             localStorage.setItem(STORAGE_KEYS.WORKOUT_HISTORY, JSON.stringify(history));
 
-            // Clear current workout session
-            currentWorkout = null;
-            exerciseCounter = 0;
-
             // Show success message
             const workoutType = currentWorkout.type;
             showSuccessFeedback(`Complete ${workoutType} workout saved!`);
+
+            // Clear current workout session
+            currentWorkout = null;
+            exerciseCounter = 0;
 
             // Return to selection
             backToSelection();
