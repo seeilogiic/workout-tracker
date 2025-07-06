@@ -641,6 +641,39 @@
             gap: 15px;
         }
 
+        .exercise-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .exercise-suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #334155;
+            transition: background-color 0.2s ease;
+        }
+
+        .exercise-suggestion-item:hover {
+            background: #334155;
+        }
+
+        .exercise-suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
         .save-exercise-btn {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
@@ -746,6 +779,13 @@
             font-size: 12px;
             margin-top: 8px;
             font-style: italic;
+        }
+
+        .exercise-bubble-volume {
+            color: #10b981;
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: 600;
         }
 
         .remove-exercise-btn {
@@ -962,6 +1002,54 @@
         .session-details {
             color: #e2e8f0;
             font-size: 14px;
+        }
+
+        .recommendations {
+            background: linear-gradient(135deg, #334155 0%, #475569 100%);
+            border: 1px solid #475569;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .recommendations h3 {
+            color: #e2e8f0;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .recommendation-card {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            border-color: #10b981;
+            transform: translateX(5px);
+        }
+
+        .recommendation-suggestion {
+            color: #e2e8f0;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-stats {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .recommendation-next {
+            color: #10b981;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
         }
 
         .stats-btn {
@@ -1267,7 +1355,8 @@
                     <div class="exercise-input-form">
                         <div class="input-group full-width">
                             <label>Exercise Name</label>
-                            <input type="text" id="exerciseNameInput" placeholder="e.g., Bench Press">
+                            <input type="text" id="exerciseNameInput" placeholder="e.g., Bench Press" oninput="showExerciseSuggestions()" onfocus="showExerciseSuggestions()">
+                            <div id="exerciseSuggestions" class="exercise-suggestions"></div>
                         </div>
                         
                         <div class="exercise-inputs">
@@ -1370,6 +1459,11 @@
                     <div class="recent-sessions">
                         <h3>Recent Sessions</h3>
                         <div id="recentSessions"></div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h3>Progressive Overload Recommendations</h3>
+                        <div id="recommendations"></div>
                     </div>
                 </div>
 
@@ -1646,6 +1740,9 @@
             
             // Show recent sessions
             showRecentSessions(exerciseData.slice(0, 10)); // Last 10 sessions
+            
+            // Show recommendations
+            showRecommendations(selectedExercise);
         }
 
         function updateProgressColors(total, year, month) {
@@ -1786,6 +1883,171 @@
             ctx.fillText('No data available for this exercise', canvas.width / 2, canvas.height / 2);
             
             document.getElementById('recentSessions').innerHTML = '<p style="color: #94a3b8; text-align: center;">No sessions found</p>';
+            document.getElementById('recommendations').innerHTML = '<p style="color: #94a3b8; text-align: center;">No recommendations available</p>';
+        }
+
+        function showRecommendations(exerciseName) {
+            const recommendations = getProgressiveOverloadRecommendations(exerciseName);
+            const container = document.getElementById('recommendations');
+            
+            if (recommendations.type === 'insufficient_data') {
+                container.innerHTML = `
+                    <div class="recommendation-card">
+                        <div class="recommendation-suggestion">${recommendations.message}</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            const stats = recommendations.currentStats;
+            let nextInfo = '';
+            
+            if (recommendations.nextWeight !== undefined) {
+                nextInfo += `Next weight: ${recommendations.nextWeight} lbs`;
+            }
+            if (recommendations.nextReps !== undefined) {
+                nextInfo += nextInfo ? ` | Next reps: ${recommendations.nextReps}` : `Next reps: ${recommendations.nextReps}`;
+            }
+            
+            container.innerHTML = `
+                <div class="recommendation-card">
+                    <div class="recommendation-suggestion">${recommendations.suggestion}</div>
+                    <div class="recommendation-stats">
+                        Current: ${stats.sets} x ${stats.reps} @ ${stats.weight} lbs (Volume: ${stats.volume.toLocaleString()} lbs)
+                    </div>
+                    ${nextInfo ? `<div class="recommendation-next">${nextInfo}</div>` : ''}
+                </div>
+            `;
+        }
+
+        // Auto-complete functionality
+        function showExerciseSuggestions() {
+            const input = document.getElementById('exerciseNameInput');
+            const suggestions = document.getElementById('exerciseSuggestions');
+            const query = input.value.toLowerCase().trim();
+            
+            if (query.length < 2) {
+                suggestions.style.display = 'none';
+                return;
+            }
+            
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            const exerciseSet = new Set();
+            
+            // Get all exercise names from history
+            history.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    if (exercise.name) {
+                        exerciseSet.add(exercise.name);
+                    }
+                });
+            });
+            
+            // Filter exercises that match the query
+            const matches = Array.from(exerciseSet).filter(exercise => 
+                exercise.toLowerCase().includes(query)
+            ).slice(0, 8); // Limit to 8 suggestions
+            
+            if (matches.length === 0) {
+                suggestions.style.display = 'none';
+                return;
+            }
+            
+            // Create suggestion items
+            suggestions.innerHTML = matches.map(exercise => 
+                `<div class="exercise-suggestion-item" onclick="selectExerciseSuggestion('${exercise}')">${exercise}</div>`
+            ).join('');
+            
+            suggestions.style.display = 'block';
+        }
+
+        function selectExerciseSuggestion(exerciseName) {
+            document.getElementById('exerciseNameInput').value = exerciseName;
+            document.getElementById('exerciseSuggestions').style.display = 'none';
+        }
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(event) {
+            const suggestions = document.getElementById('exerciseSuggestions');
+            const input = document.getElementById('exerciseNameInput');
+            
+            if (!input.contains(event.target) && !suggestions.contains(event.target)) {
+                suggestions.style.display = 'none';
+            }
+        });
+
+        // Volume calculation
+        function calculateVolume(sets, reps, weight) {
+            return sets * reps * weight;
+        }
+
+        // Get volume trends for an exercise
+        function getVolumeTrends(exerciseName) {
+            const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.WORKOUT_HISTORY) || '[]');
+            const exerciseData = [];
+            
+            history.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    if (normalizeExerciseName(exercise.name) === normalizeExerciseName(exerciseName) && 
+                        exercise.weight && exercise.reps && exercise.sets) {
+                        exerciseData.push({
+                            date: new Date(workout.date),
+                            volume: calculateVolume(exercise.sets, exercise.reps, exercise.weight),
+                            weight: exercise.weight,
+                            sets: exercise.sets,
+                            reps: exercise.reps
+                        });
+                    }
+                });
+            });
+            
+            return exerciseData.sort((a, b) => a.date - b.date);
+        }
+
+        // Progressive overload recommendations
+        function getProgressiveOverloadRecommendations(exerciseName) {
+            const volumeData = getVolumeTrends(exerciseName);
+            
+            if (volumeData.length < 2) {
+                return {
+                    type: 'insufficient_data',
+                    message: 'Need more workout data to provide recommendations'
+                };
+            }
+            
+            const recentSessions = volumeData.slice(-3); // Last 3 sessions
+            const avgVolume = recentSessions.reduce((sum, session) => sum + session.volume, 0) / recentSessions.length;
+            const lastVolume = recentSessions[recentSessions.length - 1].volume;
+            const lastWeight = recentSessions[recentSessions.length - 1].weight;
+            const lastSets = recentSessions[recentSessions.length - 1].sets;
+            const lastReps = recentSessions[recentSessions.length - 1].reps;
+            
+            // Calculate volume trend
+            const volumeTrend = (lastVolume - avgVolume) / avgVolume;
+            
+            let recommendation = {
+                type: 'progressive_overload',
+                currentStats: {
+                    weight: lastWeight,
+                    sets: lastSets,
+                    reps: lastReps,
+                    volume: lastVolume
+                }
+            };
+            
+            if (volumeTrend > 0.1) { // Volume increasing
+                recommendation.suggestion = 'Great progress! Consider increasing weight by 2.5-5 lbs';
+                recommendation.nextWeight = Math.round(lastWeight + 2.5);
+            } else if (volumeTrend > -0.05) { // Volume stable
+                recommendation.suggestion = 'Maintaining volume. Try increasing reps by 1-2 or weight by 2.5 lbs';
+                recommendation.nextReps = lastReps + 1;
+                recommendation.nextWeight = Math.round(lastWeight + 2.5);
+            } else { // Volume decreasing
+                recommendation.suggestion = 'Volume decreasing. Focus on maintaining current weight and reps';
+                recommendation.nextWeight = lastWeight;
+            }
+            
+            return recommendation;
         }
 
         function addExercise() {
@@ -1872,7 +2134,9 @@
 
             const exercisesHTML = currentWorkout.exercises.map((exercise, index) => {
                 const weightType = exercise.weightType || 'Other';
+                const volume = calculateVolume(exercise.sets, exercise.reps, exercise.weight);
                 const details = `${exercise.sets} x ${exercise.reps} - ${exercise.weight} lbs (${weightType})`;
+                const volumeInfo = `<div class="exercise-bubble-volume">Volume: ${volume.toLocaleString()} lbs</div>`;
                 const comments = exercise.comments ? `<div class="exercise-bubble-comments">${exercise.comments}</div>` : '';
                 
                 return `
@@ -1882,6 +2146,7 @@
                             <button class="remove-exercise-btn" onclick="removeExercise(${index})">×</button>
                         </div>
                         <div class="exercise-bubble-details">${details}</div>
+                        ${volumeInfo}
                         ${comments}
                     </div>
                 `;
