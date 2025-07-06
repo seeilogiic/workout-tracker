@@ -1007,7 +1007,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏋️ Workout Tracker</h1>
+            <h1>Workout Tracker</h1>
             <p>Select your workout type</p>
         </div>
         
@@ -1034,7 +1034,7 @@
                     <p id="workoutCount">No workouts recorded yet</p>
                 </div>
 
-                <button class="history-btn" onclick="showHistory()">📊 View Workout History</button>
+                <button class="history-btn" onclick="showHistory()">View Workout History</button>
                 <button class="clear-btn" onclick="clearData()">Clear All Data</button>
             </div>
 
@@ -1045,13 +1045,13 @@
                     <p id="workoutDate"></p>
                 </div>
 
-                <button class="add-exercise-btn" onclick="addExercise()">➕ Add Exercise</button>
+                <button class="add-exercise-btn" onclick="addExercise()">Add Exercise</button>
 
                 <!-- Exercise Input -->
                 <div id="exerciseInput" class="exercise-input" style="display: none;">
                     <div class="exercise-input-header">
                         <h3>Add Exercise</h3>
-                        <button class="close-exercise-btn" onclick="closeExerciseInput()">✕</button>
+                        <button class="close-exercise-btn" onclick="closeExerciseInput()">×</button>
                     </div>
                     
                     <div class="exercise-input-form">
@@ -1082,7 +1082,7 @@
                             <textarea id="exerciseCommentsInput" placeholder="How did it feel? Any notes?" rows="2"></textarea>
                         </div>
                         
-                        <button class="save-exercise-btn" onclick="saveExercise()">💾 Add to Workout</button>
+                        <button class="save-exercise-btn" onclick="saveExercise()">Add to Workout</button>
                     </div>
                 </div>
 
@@ -1092,14 +1092,14 @@
                     <div id="exercisesList"></div>
                 </div>
 
-                <button class="save-workout-btn" onclick="saveWorkout()">💾 Save Complete Workout</button>
+                <button class="save-workout-btn" onclick="saveWorkout()">Save Complete Workout</button>
                 <button class="back-btn" onclick="backToSelection()">← Back to Workout Types</button>
             </div>
 
             <!-- History Section -->
             <div id="historySection" class="history-section">
                 <div class="history-header">
-                    <h2>📊 Workout History</h2>
+                    <h2>Workout History</h2>
                     <p>Your completed workouts</p>
                 </div>
 
@@ -1345,7 +1345,7 @@
                     <div class="exercise-bubble">
                         <div class="exercise-bubble-header">
                             <div class="exercise-bubble-name">${exercise.name}</div>
-                            <button class="remove-exercise-btn" onclick="removeExercise(${index})">🗑️</button>
+                            <button class="remove-exercise-btn" onclick="removeExercise(${index})">×</button>
                         </div>
                         <div class="exercise-bubble-details">${details}</div>
                         ${comments}
